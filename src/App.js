@@ -8,7 +8,7 @@ function App() {
       <header className="App-header">
         <img src={logo} alt="logo" />
         <p>
-          iLeave
+          ileave
         </p>
         <a
           className="App-link"
