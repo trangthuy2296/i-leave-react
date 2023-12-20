@@ -45,7 +45,7 @@
 
 .image-container {
   flex: 1;
-  background: url('/Users/lengockhanhnhu-nelliele/Documents/ileave/i-leave-react/src/Images/img-login.png'); /* Set background image*/
+  background: url('./Images/img-login.png'); /* Set background image*/
   display: flex;
   justify-content: center;
   align-items: center;
