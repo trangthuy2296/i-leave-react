@@ -45,10 +45,12 @@
 
 .image-container {
   flex: 1;
-  background-color: #000000; /* Set background color or use a gradient */
+  background: url('/Users/lengockhanhnhu-nelliele/Documents/ileave/i-leave-react/src/Images/img-login.png'); /* Set background image*/
   display: flex;
   justify-content: center;
   align-items: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .login-image {
