@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Col, Divider} from 'antd';
+import { Col, Divider } from 'antd';
 import bg from './Images/img-login.png';
 
-console.log(bg);
-const loginBGRGB = 'rgb(236,213,255' 
+
+const loginBGRGB = 'rgb(236,213,255'
+
 const Login = () => {
   const [loading, setLoading] = useState(false);
 
@@ -19,62 +20,62 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
       console.log('Login successful!');
-  }, 1000);
-};
+    }, 1000);
+  };
 
   return (
     <div className="login-container">
-    <div className="image-container" style={{backgroundColor: loginBGRGB}}>
-      {/* Add your big picture here */}
-      <img
-        src={bg}
-        alt="Login Background"
-        className="login-image"
-      />
-    </div>
-    <div className="form-container">
-
-      <Form
-        name="login-form"
-        className="login-form"
-        initialValues={{ remember: true }}
-        onFinish={onFinish}
-      >
-      <Form.Item
-      name="username"
-      rules={[{ required: false, message: 'Please input your username!' }]}
-      >
-        <Input
-          prefix={<UserOutlined className="site-form-item-icon" />}
-          placeholder="Username"
+      <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
+        {/* Add your big picture here */}
+        <img
+          src={bg}
+          alt="Login Background"
+          className="login-image"
         />
-      </Form.Item>
+      </div>
+      <div className="form-container"> 
 
-      <Form.Item
-        name="password"
-        rules={[{ required: false, message: 'Please input your password!' }]}
-      >
-        <Input
-          prefix={<LockOutlined className="site-form-item-icon" />}
-          type="password"
-          placeholder="Password"
-        />
-      </Form.Item>
-
-      <Form.Item>
-        <Button
-          type="primary"
-          htmlType="submit"
-          className="login-form-button"
-          loading={loading}
+        <Form
+          name="login-form"
+          className="login-form"
+          initialValues={{ remember: true }}
+          onFinish={onFinish}
         >
-          Log in
-        </Button>
+          <Form.Item
+            name="username"
+            rules={[{ required: false, message: 'Please input your username!' }]}
+          >
+            <Input
+              prefix={<UserOutlined className="site-form-item-icon" />}
+              placeholder="Username"
+            />
+          </Form.Item>
 
-      </Form.Item>
+          <Form.Item
+            name="password"
+            rules={[{ required: false, message: 'Please input your password!' }]}
+          >
+            <Input
+              prefix={<LockOutlined className="site-form-item-icon" />}
+              type="password"
+              placeholder="Password"
+            />
+          </Form.Item>
+
+          <Form.Item>
+            <Button
+              type="primary"
+              htmlType="submit"
+              className="login-form-button"
+              loading={loading}
+            >
+              Log in
+            </Button>
+
+          </Form.Item>
         </Form>
-        </div>
-        </div>
+      </div>
+    </div>
   );
 };
 
