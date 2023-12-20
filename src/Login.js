@@ -5,7 +5,8 @@ import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Col, Divider} from 'antd';
 import bg from './Images/img-login.png';
 
-console.log(bg); 
+console.log(bg);
+const loginBGRGB = 'rgb(236,213,255' 
 const Login = () => {
   const [loading, setLoading] = useState(false);
 
@@ -23,7 +24,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-    <div className="image-container">
+    <div className="image-container" style={{backgroundColor: loginBGRGB}}>
       {/* Add your big picture here */}
       <img
         src={bg}
