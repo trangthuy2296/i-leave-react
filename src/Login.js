@@ -3,7 +3,9 @@ import React, { useState } from 'react';
 import { Form, Input, Button, Checkbox, Row } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Col, Divider} from 'antd';
+import bg from './Images/img-login.png';
 
+console.log(bg); 
 const Login = () => {
   const [loading, setLoading] = useState(false);
 
@@ -22,6 +24,12 @@ const Login = () => {
   return (
     <div className="login-container">
     <div className="image-container">
+      {/* Add your big picture here */}
+      <img
+        src={bg}
+        alt="Login Background"
+        className="login-image"
+      />
     </div>
     <div className="form-container">
 
