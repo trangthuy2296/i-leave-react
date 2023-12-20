@@ -1,19 +1,18 @@
 import logo from './logo.svg';
 import './App.css';
 import { Button } from 'antd';
+import Login from './Login';
+
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} alt="logo" />
-        <p>
-          ileave
-        </p>
-        <Button type='primary'>Leave</Button>
-      </header>
-    </div>
+    <Login />
+  </div>
   );
 }
+
+
 
 export default App;

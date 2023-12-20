@@ -36,3 +36,34 @@
     transform: rotate(360deg);
   }
 }
+
+/* Login.css */
+.login-container {
+  display: flex;
+  height: 100vh;
+}
+
+.image-container {
+  flex: 1;
+  background-color: #000000; /* Set background color or use a gradient */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-image {
+  max-width: 100%;
+  max-height: 100%;
+  border-radius: 8px; /* Optional: Add rounded corners */
+}
+
+.form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.login-form {
+  max-width: 300px; /* Adjust the width of the form */
+}
