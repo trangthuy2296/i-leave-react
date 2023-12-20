@@ -16,18 +16,12 @@ const Login = () => {
     setTimeout(() => {
       setLoading(false);
       console.log('Login successful!');
-    }, 1000);
-  };
+  }, 1000);
+};
 
   return (
     <div className="login-container">
     <div className="image-container">
-      {/* Add your big picture here */}
-      <img
-        src="/Users/baotg/i-leave-react/Image/LoginBG.png"
-        alt="Login Background"
-        className="login-image"
-      />
     </div>
     <div className="form-container">
 
@@ -39,7 +33,7 @@ const Login = () => {
       >
       <Form.Item
       name="username"
-      rules={[{ required: true, message: 'Please input your username!' }]}
+      rules={[{ required: false, message: 'Please input your username!' }]}
       >
         <Input
           prefix={<UserOutlined className="site-form-item-icon" />}
@@ -49,7 +43,7 @@ const Login = () => {
 
       <Form.Item
         name="password"
-        rules={[{ required: true, message: 'Please input your password!' }]}
+        rules={[{ required: false, message: 'Please input your password!' }]}
       >
         <Input
           prefix={<LockOutlined className="site-form-item-icon" />}
