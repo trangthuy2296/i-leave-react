@@ -11,15 +11,14 @@ export const AuthProvider = ({ children }) => {
   // call this function when you want to authenticate the user
   const login = useCallback(async (data) => {
     setUser(data);
-    navigate("/", { replace: true });
-  }, [setUser, navigate]);
+    navigate("/profile");
+  };
 
   // call this function to sign out logged in user
   const logout = useCallback(() => {
     setUser(null);
-    navigate("/Login", { replace: true });
-  }, [setUser, navigate]);
-
+    navigate("/", { replace: true });
+  };
 
   const value = useMemo(
     () => ({

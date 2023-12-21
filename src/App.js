@@ -6,22 +6,18 @@ import {   Route, createBrowserRouter, createRoutesFromElements,defer } from "re
 //page
 import Login from './Login';
 import Dashboard from './Dashboard';
-import { ProtectedLayout } from './Component/ProtectedLayout';
-import { AuthLayout } from './Component/AuthLayout';
-
-const getUserData = () =>
-{}
-export const router = createBrowserRouter(
-  createRoutesFromElements(
-    <Route
-      element={<AuthLayout />}
-      loader={() => defer({ userPromise: getUserData() })}
-    >
-        <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
-        <Route path="/login" element={<Login />} />
-    </Route>
-  )
-);
+import { ProtectedRoute } from './Component/ProtectedRoutes';
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
+export default function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Login />}/>
+        <Route path="/Dashboard" element={<ProtectedRoute><Dashboard/></ProtectedRoute>}  />
+      </Routes>
+    </Router>
+  );
+}
 //test branch
