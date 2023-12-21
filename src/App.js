@@ -23,7 +23,6 @@ export const router = createBrowserRouter(
       element={<AuthLayout />}
       loader={() => defer({ userPromise: getUserData() })}
     >
-
         <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
         <Route path="/Login" element={<Login />} />
     </Route>
