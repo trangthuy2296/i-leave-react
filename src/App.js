@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import logo from './logo.svg';
 import Login from './Login';
 import Dashboard from './Dashboard';
 import { ProtectedRoute } from './Component/ProtectedRoutes';
