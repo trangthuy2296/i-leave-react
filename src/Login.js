@@ -1,83 +1,112 @@
-// Login.js
-import React, { useState } from 'react';
-import { Form, Input, Button, Checkbox, Row } from 'antd';
-import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import { Col, Divider } from 'antd';
-import bg from './Images/img-login.png';
+import React from 'react';
+import { Formik, Field, Form, ErrorMessage } from 'formik';
+import { Input, Button, Row, Col } from 'antd';
+import './Login.css'; // Import your custom CSS file
+import Logo from './logo.svg'
+import Bg from './assets/images/img-login.jpg'
+import validationSchema from './validationSchema';
 
 
-const loginBGRGB = 'rgb(236,213,255'
+const LoginPage = () => {
+    const initialValues = {
+        email: '',
+        password: '',
+    };
 
-const Login = () => {
-  const [loading, setLoading] = useState(false);
+    const onSubmit = (values) => {
+        // Handle form submission logic here
+        console.log(values);
+    };
 
-  const onFinish = (values) => {
-    // Handle login logic here
-    console.log('Received values:', values);
-    setLoading(true);
+    /*   const validate = (values) => {
+           const errors = {};
+   
+           // Your validation logic goes here
+           if (!values.email) {
+               errors.email = 'Email is required';
+           } else if (
+               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
+           ) {
+               errors.email = 'Invalid email address';
+           }
+           // Add more validation rules for other fields
+           if (!values.password) {
+               errors.password = 'Password is required';
+           } else {
+               // Check if email is not longer than 6 characters
+               if (values.password.length < 6) {
+                   errors.password = 'Password must have at least 6 characters';
+               }
+           }
+   
+           return errors;
+       };*/
 
-    // Simulate login (replace this with your actual login logic)
-    setTimeout(() => {
-      setLoading(false);
-      console.log('Login successful!');
-    }, 1000);
-  };
+    return (
+        <Row className="login-page">
+            {/* Left Section with Big Image */}
+            <Col className="left-section" >
+                <img
+                    src={Bg}
+                    alt="Login Background"
+                    className="background-image"
+                />
+            </Col>
 
-  return (
-    <div className="login-container">
-      <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
-        {/* Add your big picture here */}
-        <img
-          src={bg}
-          alt="Login Background"
-          className="login-image"
-        />
-      </div>
-      <div className="form-container"> 
+            {/* Right Section with Login Form */}
+            <Col className="right-section">
+                <div className="login-form-container">
+                    <img style={{ paddingBottom: 32 }} src={Logo} alt='logo'></img>
 
-        <Form
-          name="login-form"
-          className="login-form"
-          initialValues={{ remember: true }}
-          onFinish={onFinish}
-        >
-          <Form.Item
-            name="username"
-            rules={[{ required: false, message: 'Please input your username!' }]}
-          >
-            <Input
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Username"
-            />
-          </Form.Item>
+                    <h1>Login in to ileave</h1>
+                    <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
 
-          <Form.Item
-            name="password"
-            rules={[{ required: false, message: 'Please input your password!' }]}
-          >
-            <Input
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
+                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
+                        <Form >
+                            <div style={{ paddingBottom: 16 }}>
+                                <div style={{ paddingBottom: 8 }}> <label htmlFor="email"><b>Email</b></label></div>
+                                <Field className="custom-input-item" type="text" id="email" name="email" as={Input}
+                                    render={({ field, form }) => (
+                                        <Input
+                                            className="custom-input-item"
+                                            {...field}
+                                            style={{
+                                                borderColor:
+                                                    form.touched.email && form.errors.email ? 'red' : '',
+                                            }}
+                                        />
+                                    )} />
+                                <ErrorMessage name="email" component="div" className="error-message" />
+                            </div>
 
-          <Form.Item>
-            <Button
-              type="primary"
-              htmlType="submit"
-              className="login-form-button"
-              loading={loading}
-            >
-              Log in
-            </Button>
+                            <div style={{ paddingBottom: 24 }}>
+                                <div style={{ paddingBottom: 8 }}><label htmlFor="password"><b>Password</b></label></div>
+                                <Field className="custom-input-item" type="password" id="password" name="password" as={Input.Password}
+                                    render={({ field, form }) => (
+                                        <Input.Password
+                                            className="custom-input-item"
+                                            {...field}
+                                            style={{
+                                                borderColor:
+                                                    form.touched.password && form.errors.password ? 'red' : '',
+                                            }}
+                                        />
+                                    )}
+                                />
+                                <ErrorMessage name="password" component="div" className="error-message" />
+                            </div>
 
-          </Form.Item>
-        </Form>
-      </div>
-    </div>
-  );
+                            <div>
+                                <Button type="primary" htmlType="submit" className='login-button'>
+                                    Login
+                                </Button>
+                            </div>
+                        </Form>
+                    </Formik>
+                </div>
+            </Col>
+        </Row>
+    );
 };
 
-
-export default Login;
+export default LoginPage;
