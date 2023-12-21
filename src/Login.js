@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import bg from './Images/img-login.png';
 import icon from './Images/ileave-icon.png';
@@ -19,19 +19,6 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-  /*const [loading, setLoading] = useState(false);
-    },
-    onSubmit: (values) => {
-      // Handle login logic here
-      console.log('Received values:', values);
-      setLoading(true);
-
-      // Simulate login (replace this with your actual login logic)
-      setTimeout(() => {
-        setLoading(false);
-        console.log('Login successful!');
-      }, 1000);
-    },*/
 
   return (
     <div className="login-container">
@@ -67,15 +54,13 @@ const Login = () => {
           handleBlur,
           handleSubmit,
         }) => (
-          <Form onFinish={handleSubmit} className="login">
+          <Form onFinish={handleSubmit} className="login-form">
             <Form.Item
-              label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Email</span>}
+              label={<span style={{ fontWeight: '600', fontSize: '12px' }}>Email</span>}
               name="email"
               validateStatus={errors.email && touched.email ? 'error' : ''}
               help={errors.email && touched.email && errors.email}
               labelCol={{ span: 24 }}
-              //wrapperCol={{ span: 24 }}
-              style={{ marginBottom: '16px' }}
             >
               <Input
                 placeholder="Enter your email"
@@ -87,12 +72,11 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item
-              label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Password</span>}
+              label={<span style={{ fontWeight: '600', fontSize: '12px' }}>Password</span>}
               name="password"
               validateStatus={errors.password && touched.password ? 'error' : ''}
               help={errors.password && touched.password && errors.password}
               labelCol={{ span: 24 }}
-              //wrapperCol={{ span: 24 }}
             >
               <Input.Password
                 placeholder="Enter your password"
