@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Input, Button, Row, Col } from 'antd';
 import './Login.css'; // Import your custom CSS file
 import Logo from './logo.svg'
-import Bg from './assets/images/img-login.jpg'
+import Bg from './Images/img-login.png'
 import validationSchema from './validationSchema';
 
 
