@@ -5,8 +5,6 @@ import bg from './Images/img-login.png';
 import icon from './Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from 'react-router-dom';
-
 
 // Creating schema
 const schema = Yup.object().shape({
@@ -21,42 +19,19 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false); 
-  const navigate = useNavigate();
-
-    const handleSubmit = async (values) => {
-    try {
+  /*const [loading, setLoading] = useState(false);
+    },
+    onSubmit: (values) => {
+      // Handle login logic here
+      console.log('Received values:', values);
       setLoading(true);
-      const response = await fetch('http://localhost:7003/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-      if (response.ok) {
-        // If login is successful, store the token in local storage or manage it as needed
-        const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
-        
-        message.success('Login successful!');
-        console.log('About to navigate to /');
-        navigate('/');
-      } else {
-        // Handle login error
-        console.error('Login failed');
-        // Display an error message
-        message.error('Login failed. Please check your credentials.');
-      }
-    } catch (error) {
-      console.error('Error during login:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+
+      // Simulate login (replace this with your actual login logic)
+      setTimeout(() => {
+        setLoading(false);
+        console.log('Login successful!');
+      }, 1000);
+    },*/
 
   return (
     <div className="login-container">
@@ -87,32 +62,38 @@ const Login = () => {
         {/* Signin form*/}
         
         <Formik
-          validationSchema={schema}
-          initialValues={{ email: '', password: '' }}
-          onSubmit={handleSubmit}
-        >
-          {({
-            values,
-            errors,
-            touched,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-          }) => (
-            <Form onFinish={handleSubmit} className="login" layout="vertical">
-              <Form.Item
-                label={<label>Email</label>}
-                name="email"
-                validateStatus={errors.email && touched.email ? 'error' : ''}
-                help={errors.email && touched.email && <span className="error-message-form">{errors.email}</span>}
-              >
-                <Input
-                  placeholder="Enter your email"
-                  value={values.email}
-                  onChange={handleChange}
-                  //onBlur={handleBlur}
-                />
-              </Form.Item>
+        validationSchema={schema}
+        initialValues={{ email: '', password: '' }}
+        onSubmit={(values) => {
+          alert(JSON.stringify(values));
+        }}
+      >
+        {({
+          values,
+          errors,
+          touched,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+        }) => (
+          <Form onFinish={handleSubmit} className="login">
+            <Form.Item
+              label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Email</span>}
+              name="email"
+              validateStatus={errors.email && touched.email ? 'error' : ''}
+              help={errors.email && touched.email && errors.email}
+              labelCol={{ span: 24 }}
+              //wrapperCol={{ span: 24 }}
+              style={{ marginBottom: '16px' }}
+            >
+              <Input
+                placeholder="Enter your email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+               
+              />
+            </Form.Item>
 
               <Form.Item
                 label={<label>Password</label>}
