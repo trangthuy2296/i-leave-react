@@ -58,7 +58,7 @@ const LoginPage = () => {
                 <div className="login-form-container">
                     <img style={{ paddingBottom: 32 }} src={Logo} alt='logo'></img>
 
-                    <h1>Login in to ileave</h1>
+                    <h1>Sign in to ileave</h1>
                     <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
 
                     <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
@@ -98,7 +98,7 @@ const LoginPage = () => {
 
                             <div>
                                 <Button type="primary" htmlType="submit" className='login-button'>
-                                    Login
+                                    Sign in
                                 </Button>
                             </div>
                         </Form>
