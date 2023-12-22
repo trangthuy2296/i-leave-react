@@ -67,7 +67,6 @@
 }
 
 .login-form {
-.login-form {
   max-width: 600px; /* Adjust the width of the form */
   display: flex;
   flex-direction: column;
