@@ -10,13 +10,7 @@ import { ProtectedLayout } from './Component/ProtectedLayout';
 import { AuthLayout } from './Component/AuthLayout';
 
 const getUserData = () =>
-  new Promise((resolve) =>
-    setTimeout(() => {
-      const user = window.localStorage.getItem("user");
-      resolve(user);
-    }, 3000)
-  );
-
+{}
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
@@ -25,7 +19,7 @@ export const router = createBrowserRouter(
     >
 
         <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
-        <Route path="/Login" element={<Login />} />
+        <Route path="/login" element={<Login />} />
     </Route>
   )
 );
