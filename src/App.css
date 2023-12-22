@@ -67,6 +67,8 @@
 }
 
 .login-form {
+.login-form {
+  max-width: 600px; /* Adjust the width of the form */
   display: flex;
   flex-direction: column;
   align-items: 600px;
@@ -85,6 +87,7 @@
   padding: 8px 24px;
   justify-content: center;
   align-items: center;
+  align-self: stretch;
   background-color: #6143B1;
   width: 100%;
   font-weight: 700;

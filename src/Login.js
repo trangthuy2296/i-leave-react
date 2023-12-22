@@ -19,7 +19,6 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-
   return (
     <div className="login-container">
       <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
@@ -54,13 +53,15 @@ const Login = () => {
           handleBlur,
           handleSubmit,
         }) => (
-          <Form onFinish={handleSubmit} className="login-form">
+<Form onFinish={handleSubmit} className="login-form">
             <Form.Item
-              label={<span style={{ fontWeight: '600', fontSize: '12px' }}>Email</span>}
+              label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Email</span>}
               name="email"
               validateStatus={errors.email && touched.email ? 'error' : ''}
               help={errors.email && touched.email && errors.email}
               labelCol={{ span: 24 }}
+              //wrapperCol={{ span: 24 }}
+              style={{ marginBottom: '16px' }}
             >
               <Input
                 placeholder="Enter your email"
@@ -72,11 +73,12 @@ const Login = () => {
             </Form.Item>
 
             <Form.Item
-              label={<span style={{ fontWeight: '600', fontSize: '12px' }}>Password</span>}
+              label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Password</span>}
               name="password"
               validateStatus={errors.password && touched.password ? 'error' : ''}
               help={errors.password && touched.password && errors.password}
               labelCol={{ span: 24 }}
+              //wrapperCol={{ span: 24 }}
             >
               <Input.Password
                 placeholder="Enter your password"
