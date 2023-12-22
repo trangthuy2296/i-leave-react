@@ -3,7 +3,7 @@ import React from 'react';
 import { Form, Input, Button } from 'antd';
 import bg from './Images/img-login.png';
 import logo from './Images/ileave-icon.png';
-import { Formik, ErrorMessage } from "formik";
+import { Formik } from "formik";
 import * as Yup from "yup";
 
 // Creating schema
