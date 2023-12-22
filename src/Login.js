@@ -1,5 +1,5 @@
 // Login.js
-import React, { useState } from 'react';
+import React from 'react';
 import { Form, Input, Button } from 'antd';
 import bg from './Images/img-login.png';
 import icon from './Images/ileave-icon.png';
@@ -19,20 +19,6 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-  /*const [loading, setLoading] = useState(false);
-    },
-    onSubmit: (values) => {
-      // Handle login logic here
-      console.log('Received values:', values);
-      setLoading(true);
-
-      // Simulate login (replace this with your actual login logic)
-      setTimeout(() => {
-        setLoading(false);
-        console.log('Login successful!');
-      }, 1000);
-    },*/
-
   return (
     <div className="login-container">
       <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
@@ -67,7 +53,7 @@ const Login = () => {
           handleBlur,
           handleSubmit,
         }) => (
-          <Form onFinish={handleSubmit} className="login">
+<Form onFinish={handleSubmit} className="login-form">
             <Form.Item
               label={<span style={{ fontWeight: 'bold', fontSize: '12px' }}>Email</span>}
               name="email"
