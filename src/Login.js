@@ -1,112 +1,109 @@
+// Login.js
 import React from 'react';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Input, Button, Row, Col } from 'antd';
-import './Login.css'; // Import your custom CSS file
-import Logo from './logo.svg'
-import Bg from './Images/img-login.png'
-import validationSchema from './validationSchema';
+import { Form, Input, Button } from 'antd';
+import bg from './Images/img-login.png';
+import logo from './Images/ileave-icon.png';
+import { Formik } from "formik";
+import * as Yup from "yup";
 
+// Creating schema
+const schema = Yup.object().shape({
+  email: Yup
+    .string()
+    .required("Email is required")
+    .email("Invalid email format"),
+  password: Yup
+    .string()
+    .required("Password is required")
+    .min(8, "Password must be at least 8 characters"),
+});
 
-const LoginPage = () => {
-    const initialValues = {
-        email: '',
-        password: '',
-    };
+const loginBGRGB = 'rgb(236,213,255)';
 
-    const onSubmit = (values) => {
-        // Handle form submission logic here
-        console.log(values);
-    };
+const Login = () => {
+  return (
+    <div className="login-container">
 
-    /*   const validate = (values) => {
-           const errors = {};
-   
-           // Your validation logic goes here
-           if (!values.email) {
-               errors.email = 'Email is required';
-           } else if (
-               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-           ) {
-               errors.email = 'Invalid email address';
-           }
-           // Add more validation rules for other fields
-           if (!values.password) {
-               errors.password = 'Password is required';
-           } else {
-               // Check if email is not longer than 6 characters
-               if (values.password.length < 6) {
-                   errors.password = 'Password must have at least 6 characters';
-               }
-           }
-   
-           return errors;
-       };*/
+      {/*Left section*/}
+      <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
+        {/* Add your big picture here */}
+        <img
+          src={bg}
+          alt="Login Background"
+          className="login-image"
+        />
+      </div>
 
-    return (
-        <Row className="login-page">
-            {/* Left Section with Big Image */}
-            <Col className="left-section" >
-                <img
-                    src={Bg}
-                    alt="Login Background"
-                    className="background-image"
+      {/*Right section*/}  
+      <div className="form-container">
+        <div className="login-header">
+          <img
+            src={logo}
+            alt="ileave icon"
+          />
+          <h1> Sign in to iLeave</h1>
+          <p style={{ color: '#6A7882' }}>Welcome back!</p>
+        </div>
+
+        {/*Sign in form*/}
+        <Formik
+          validationSchema={schema}
+          initialValues={{ email: '', password: '' }}
+          onSubmit={(values) => {
+            alert(JSON.stringify(values));
+          }}
+        >
+          {({
+            values,
+            errors,
+            touched,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+          }) => (
+            <Form onFinish={handleSubmit} className="login-form" layout="vertical">
+              <Form.Item
+                label={<label>Email</label>}
+                name="email"
+                validateStatus={errors.email && touched.email ? 'error' : ''}
+                help={errors.email && touched.email && <span className="error-message-form">{errors.email}</span>}
+              >
+                <Input
+                  placeholder="Enter your email"
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
-            </Col>
+              </Form.Item>
 
-            {/* Right Section with Login Form */}
-            <Col className="right-section">
-                <div className="login-form-container">
-                    <img style={{ paddingBottom: 32 }} src={Logo} alt='logo'></img>
+              <Form.Item
+                label={<label>Password</label>}
+                name="password"
+                validateStatus={errors.password && touched.password ? 'error' : ''}
+                help={errors.password && touched.password && <span className="error-message-form">{errors.password}</span>}
+              >
+                <Input.Password
+                  placeholder="Enter your password"
+                  name="password"
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                />
+              </Form.Item>
 
-                    <h1>Sign in to ileave</h1>
-                    <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
-
-                    <Formik initialValues={initialValues} onSubmit={onSubmit} validationSchema={validationSchema}>
-                        <Form >
-                            <div style={{ paddingBottom: 16 }}>
-                                <div style={{ paddingBottom: 8 }}> <label htmlFor="email"><b>Email</b></label></div>
-                                <Field className="custom-input-item" type="text" id="email" name="email" as={Input}
-                                    render={({ field, form }) => (
-                                        <Input
-                                            className="custom-input-item"
-                                            {...field}
-                                            style={{
-                                                borderColor:
-                                                    form.touched.email && form.errors.email ? 'red' : '',
-                                            }}
-                                        />
-                                    )} />
-                                <ErrorMessage name="email" component="div" className="error-message" />
-                            </div>
-
-                            <div style={{ paddingBottom: 24 }}>
-                                <div style={{ paddingBottom: 8 }}><label htmlFor="password"><b>Password</b></label></div>
-                                <Field className="custom-input-item" type="password" id="password" name="password" as={Input.Password}
-                                    render={({ field, form }) => (
-                                        <Input.Password
-                                            className="custom-input-item"
-                                            {...field}
-                                            style={{
-                                                borderColor:
-                                                    form.touched.password && form.errors.password ? 'red' : '',
-                                            }}
-                                        />
-                                    )}
-                                />
-                                <ErrorMessage name="password" component="div" className="error-message" />
-                            </div>
-
-                            <div>
-                                <Button type="primary" htmlType="submit" className='login-button'>
-                                    Sign in
-                                </Button>
-                            </div>
-                        </Form>
-                    </Formik>
-                </div>
-            </Col>
-        </Row>
-    );
+              <Form.Item
+                wrapperCol={{ span: 24 }}
+              >
+                <Button type="primary" htmlType="submit" className="primary-button">
+                  Sign in {/* Use the "primary-button" class */}
+                </Button>
+              </Form.Item>
+            </Form>
+          )}
+        </Formik>
+      </div>
+    </div>
+  );
 };
 
-export default LoginPage;
+export default Login;
