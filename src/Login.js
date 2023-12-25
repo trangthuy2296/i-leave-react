@@ -21,10 +21,9 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-  const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-
-  const handleSubmit = async (values) => {
+  const [loading, setLoading] = useState(false); 
+  
+    const handleSubmit = async (values) => {
     try {
       setLoading(true);
       const response = await fetch('http://localhost:7003/api/login', {
@@ -39,8 +38,8 @@ const Login = () => {
       });
       if (response.ok) {
         // If login is successful, store the token in local storage or manage it as needed
-        const { token } = await response.json();
-        localStorage.setItem('token', token);
+        const { accessToken } = await response.json();
+        localStorage.setItem('accessToken', accessToken);
         
         message.success('Login successful!');
         console.log('About to navigate to /');
