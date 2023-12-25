@@ -18,30 +18,6 @@ const LoginPage = () => {
         console.log(values);
     };
 
-    /*   const validate = (values) => {
-           const errors = {};
-   
-           // Your validation logic goes here
-           if (!values.email) {
-               errors.email = 'Email is required';
-           } else if (
-               !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
-           ) {
-               errors.email = 'Invalid email address';
-           }
-           // Add more validation rules for other fields
-           if (!values.password) {
-               errors.password = 'Password is required';
-           } else {
-               // Check if email is not longer than 6 characters
-               if (values.password.length < 6) {
-                   errors.password = 'Password must have at least 6 characters';
-               }
-           }
-   
-           return errors;
-       };*/
-
     return (
         <Row className="login-page">
             {/* Left Section with Big Image */}
