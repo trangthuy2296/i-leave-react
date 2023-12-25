@@ -19,19 +19,41 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
-  /*const [loading, setLoading] = useState(false);
-    },
-    onSubmit: (values) => {
-      // Handle login logic here
-      console.log('Received values:', values);
+  const [loading, setLoading] = useState(false);
+  const history = useHistory(); 
+  
+    const handleSubmit = async (values) => {
+    try {
       setLoading(true);
-
-      // Simulate login (replace this with your actual login logic)
-      setTimeout(() => {
-        setLoading(false);
-        console.log('Login successful!');
-      }, 1000);
-    },*/
+      const response = await fetch('http://localhost:7003/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userEmail: values.email,
+          password: values.password,
+        } ),
+      });
+      if (response.ok) {
+        // If login is successful, store the token in local storage or manage it as needed
+        const { token } = await response.json();
+        localStorage.setItem('token', token);
+        
+        message.success('Login successful!');
+        history.push('/'); 
+      } else {
+        // Handle login error
+        console.error('Login failed');
+        // Display an error message
+        message.error('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="login-container">
