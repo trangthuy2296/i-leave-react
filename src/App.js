@@ -7,17 +7,18 @@ import { ProtectedLayout } from "./components/ProtectedLayout";
 import { AuthLayout } from "./components/AuthLayout";
 import LoginPage from './LoginPage';
 import Dashboard from './Dashboard';
-import {
-  BrowserRouter as Router, Routes, Route
-} from "react-router-dom";
+import { Route, createBrowserRouter, createRoutesFromElements,defer  } from "react-router-dom";
 
-export default function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />}/>
-        <Route path="/Dashboard" element={<ProtectedLayout><Dashboard/></ProtectedLayout>}  />
-      </Routes>
-    </Router>
-  );
-}
+const getUserData = () =>
+{}
+export const router = createBrowserRouter(
+  createRoutesFromElements(
+    <Route
+      element={<AuthLayout />}
+      loader={() => defer({ userPromise: getUserData() })}
+    >
+        <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
+        <Route path="/login" element={<LoginPage />} />
+    </Route>
+  )
+);

@@ -1,23 +1,49 @@
-import React from 'react';
+import React , { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Input, Button, Row, Col } from 'antd';
+import { Input, Button, Row, Col, message } from 'antd';
 import './LoginPage.css'; // Import your custom CSS file
 import Logo from './logo.svg'
 import Bg from './assets/images/img-login.jpg'
 import validationSchema from './validationSchema';
+import { useNavigate } from 'react-router-dom';
 
 
 const LoginPage = () => {
-    const initialValues = {
-        email: '',
-        password: '',
-    };
+    const [loading, setLoading] = useState(false); 
+  const navigate = useNavigate();
 
- /*   const onSubmit = (values) => {
-        // Handle form submission logic here
-        console.log(values);
-    };
-*/
+    const handleSubmit = async (values) => {
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:7003/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: values.email,
+          password: values.password,
+        } ),
+      });
+      if (response.ok) {
+        // If login is successful, store the token in local storage or manage it as needed
+        const { accessToken } = await response.json();
+        localStorage.setItem('accessToken', accessToken);
+        message.success('Login successful!');
+        console.log('About to navigate to /');
+        navigate('/');
+      } else {
+        // Handle login error
+        console.error('Login failed');
+        // Display an error message
+        message.error('Login failed. Please check your credentials.');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
     return (
         <Row className="login-page">
             {/* Left Section with Big Image */}
@@ -37,7 +63,7 @@ const LoginPage = () => {
                     <h1>Login in to ileave</h1>
                     <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
 
-                    <Formik initialValues={initialValues}  validationSchema={validationSchema}>
+                    <Formik validationSchema={validationSchema}>
                         <Form >
                             <div style={{ paddingBottom: 16 }}>
                                 <div style={{ paddingBottom: 8 }}> <label htmlFor="email"><b>Email</b></label></div>
