@@ -22,7 +22,8 @@ const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
   const [loading, setLoading] = useState(false); 
-  
+  const navigate = useNavigate();
+
     const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -34,7 +35,7 @@ const Login = () => {
         body: JSON.stringify({
           email: values.email,
           password: values.password,
-        } ),
+        }),
       });
       if (response.ok) {
         // If login is successful, store the token in local storage or manage it as needed
@@ -85,9 +86,7 @@ const Login = () => {
         <Formik
         validationSchema={schema}
         initialValues={{ email: '', password: '' }}
-        onSubmit={(values) => {
-          alert(JSON.stringify(values));
-        }}
+        onSubmit={handleSubmit}
       >
         {({
           values,
@@ -112,7 +111,6 @@ const Login = () => {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-               
               />
             </Form.Item>
 
