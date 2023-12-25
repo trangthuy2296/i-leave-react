@@ -21,7 +21,6 @@ export const AuthProvider = ({ children }) => {
   }, [setUser, navigate]);
 
 
-
   const value = useMemo(
     () => ({
       user,
