@@ -39,8 +39,9 @@ const Login = () => {
       });
       if (response.ok) {
         // If login is successful, store the token in local storage or manage it as needed
-        const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
+        const { token } = await response.json();
+        localStorage.setItem('token', token);
+        
         message.success('Login successful!');
         console.log('About to navigate to /');
         navigate('/');
