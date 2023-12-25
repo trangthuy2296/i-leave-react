@@ -24,8 +24,8 @@ const loginBGRGB = 'rgb(236,213,255)';
 const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  
-    const handleSubmit = async (values) => {
+
+  const handleSubmit = async (values) => {
     try {
       debugger
       setLoading(true);
@@ -37,7 +37,7 @@ const Login = () => {
         body: JSON.stringify({
           email: values.email,
           password: values.password,
-        } ),
+        }),
       });
       if (response.ok) {
         // If login is successful, store the token in local storage or manage it as needed
@@ -60,8 +60,9 @@ const Login = () => {
   };
   return (
     <div className="login-container">
+      
+      {/* Left section*/}
 
-      {/*Left section*/}
       <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
         {/* Add your big picture here */}
         <img
@@ -71,18 +72,20 @@ const Login = () => {
         />
       </div>
 
-      {/*Right section*/}  
+      {/* Right section*/}
+
       <div className="form-container">
         <div className="login-header">
           <img
-            src={logo}
+            src={icon}
             alt="ileave icon"
           />
           <h1> Sign in to iLeave</h1>
           <p style={{ color: '#6A7882' }}>Welcome back!</p>
         </div>
 
-        {/*Sign in form*/}
+        {/* Signin form*/}
+        
         <Formik
           validationSchema={schema}
           initialValues={{ email: '', password: '' }}
@@ -96,7 +99,7 @@ const Login = () => {
             handleBlur,
             handleSubmit,
           }) => (
-            <Form onFinish={handleSubmit} className="login-form" layout="vertical">
+            <Form onFinish={handleSubmit} className="login" layout="vertical">
               <Form.Item
                 label={<label>Email</label>}
                 name="email"
@@ -107,7 +110,7 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={values.email}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  //onBlur={handleBlur}
                 />
               </Form.Item>
 
@@ -122,7 +125,7 @@ const Login = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  onBlur={handleBlur}
+                  //onBlur={handleBlur}
                 />
               </Form.Item>
 
