@@ -7,7 +7,6 @@ import Bg from './assets/images/img-login.jpg'
 import validationSchema from './validationSchema';
 
 
-
 const LoginPage = () => {
     const initialValues = {
         email: '',
@@ -38,7 +37,7 @@ const LoginPage = () => {
                     <h1>Login in to ileave</h1>
                     <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
 
-                    <Formik initialValues={initialValues} validationSchema={validationSchema}>
+                    <Formik initialValues={initialValues}  validationSchema={validationSchema}>
                         <Form >
                             <div style={{ paddingBottom: 16 }}>
                                 <div style={{ paddingBottom: 8 }}> <label htmlFor="email"><b>Email</b></label></div>
