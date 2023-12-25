@@ -5,6 +5,8 @@ import bg from './Images/img-login.png';
 import icon from './Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from 'react-router-dom';
+
 
 // Creating schema
 const schema = Yup.object().shape({
@@ -20,7 +22,8 @@ const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
   const [loading, setLoading] = useState(false); 
-  
+  const navigate = useNavigate();
+
     const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -38,8 +41,9 @@ const Login = () => {
         // If login is successful, store the token in local storage or manage it as needed
         const { accessToken } = await response.json();
         localStorage.setItem('accessToken', accessToken);
-        
         message.success('Login successful!');
+        console.log('About to navigate to /');
+        navigate('/');
       } else {
         // Handle login error
         console.error('Login failed');
