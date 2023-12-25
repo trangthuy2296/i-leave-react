@@ -22,7 +22,8 @@ const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
   const [loading, setLoading] = useState(false); 
-  
+  const navigate = useNavigate();
+
     const handleSubmit = async (values) => {
     try {
       setLoading(true);
