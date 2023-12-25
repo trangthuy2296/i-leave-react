@@ -30,14 +30,14 @@ const Login = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          userEmail: values.email,
+          email: values.email,
           password: values.password,
         } ),
       });
       if (response.ok) {
         // If login is successful, store the token in local storage or manage it as needed
-        const { token } = await response.json();
-        localStorage.setItem('token', token);
+        const { accessToken } = await response.json();
+        localStorage.setItem('accessToken', accessToken);
         
         message.success('Login successful!');
       } else {
