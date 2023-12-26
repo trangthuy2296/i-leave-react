@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
 import bg from './Images/img-login.png';
-import logo from './Images/ileave-icon.png';
+import icon from './Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
