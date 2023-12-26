@@ -12,8 +12,8 @@ export const AuthLayout = () => {
       <Await
         resolve={userPromise}
         errorElement={<h1>Something went wrong!</h1>}
-        children={(accessToken) => (
-          <AuthProvider initialAccessToken={accessToken}>{outlet}</AuthProvider>
+        children={(user) => (
+          <AuthProvider userData={user}>{outlet}</AuthProvider>
         )}
       />
     </Suspense>
