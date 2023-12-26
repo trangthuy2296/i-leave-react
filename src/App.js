@@ -6,6 +6,7 @@ import {   Route, createBrowserRouter, createRoutesFromElements,defer } from "re
 //page
 import Login from './Login';
 import Dashboard from './Dashboard';
+import Settings from './Settings';
 import { ProtectedLayout } from './Component/ProtectedLayout';
 import { AuthLayout } from './Component/AuthLayout';
 
@@ -18,6 +19,8 @@ export const router = createBrowserRouter(
       loader={() => defer({ userPromise: getUserData() })}
     >
         <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
+
+        <Route path="/settings" element={<ProtectedLayout><Settings /></ProtectedLayout>} />
         <Route path="/login" element={<Login />} />
     </Route>
   )

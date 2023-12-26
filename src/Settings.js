@@ -8,7 +8,7 @@ import {
 
 const { Sider, Content, Header } = Layout;
 
-const settings = () => {
+const Settings = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
                <Layout>
@@ -21,4 +21,4 @@ const settings = () => {
     );
 };
 
-export default settings;
+export default Settings;
