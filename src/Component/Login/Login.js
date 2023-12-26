@@ -1,11 +1,12 @@
 // Login.js
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import bg from './Images/img-login.png';
-import icon from './Images/ileave-icon.png';
+import bg from '../../Images/img-login.png';
+import icon from '../../Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Hook/useAuth';
 
 
 // Creating schema
@@ -23,6 +24,7 @@ const loginBGRGB = 'rgb(236,213,255)';
 const Login = () => {
   const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
+  const { handleLogin } = useAuth();
 
     const handleSubmit = async (values) => {
     try {
@@ -42,6 +44,8 @@ const Login = () => {
         const { accessToken } = await response.json();
         localStorage.setItem('accessToken', accessToken);
         message.success('Login successful!');
+        console.log('About to navigate to /');
+        navigate('/');
       } else {
         // Handle login error
         console.error('Login failed');

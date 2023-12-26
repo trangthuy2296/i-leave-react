@@ -1,5 +1,5 @@
-import { createContext, useContext, useMemo, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
+import { createContext, useCallback, useContext, useMemo } from "react";
+import { useNavigate, Outlet} from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
 const AuthContext = createContext();
@@ -12,11 +12,12 @@ export const AuthProvider = ({ children, initialAccessToken }) => {
 
   // call this function when you want to authenticate the user
   const login = useCallback(async (data) => {
+    console.log('Setting accessToken:', data);
     setAccessToken(data);
     navigate("/", { replace: true });
   }, [setUser, navigate]);
 
-  // call this function to sign out logged in userß
+  // call this function to sign out logged in user
   const logout = useCallback(() => {
     setAccessToken(null);
     navigate("/login", { replace: true });
@@ -27,10 +28,10 @@ export const AuthProvider = ({ children, initialAccessToken }) => {
   const value = useMemo(
     () => ({
       accessToken,
-      login,
+      handleLogin,
       logout
     }),
-    [accessToken, login, logout]
+    [accessToken, handleLogin, logout]
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
