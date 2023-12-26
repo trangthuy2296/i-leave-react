@@ -68,11 +68,11 @@ const LoginPage = () => {
                     <h1>Login in to ileave</h1>
                     <p style={{ color: 'gray' }}>Welcome back! Please enter your details</p>
 
-                    <Formik initialValues={initialValues} validationSchema={validationSchema} >
-                        <Form >
+                    <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
+                        <Form onFinish={handleSubmit}>
                             <div style={{ paddingBottom: 16 }}>
                                 <div style={{ paddingBottom: 8 }}> <label htmlFor="email"><b>Email</b></label></div>
-                                <Field className="custom-input-item" type="text" id="email" name="email" as={Input}
+                                <Field className="custom-input-item" type="text" id="email" name="email" as={Input} 
                                     render={({ field, form }) => (
                                         <Input
                                             className="custom-input-item"
