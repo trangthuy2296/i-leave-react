@@ -37,7 +37,11 @@ const columns = [
 ];
 
 const Dashboard = () => {
-  return <Table dataSource={dataSource} columns={columns} />;
+  return <div>
+
+    <h1>Dashboard</h1>
+    <Table dataSource={dataSource} columns={columns} />;
+  </div>
 };
 
 export default Dashboard;
