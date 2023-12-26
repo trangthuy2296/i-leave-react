@@ -24,7 +24,7 @@ const loginBGRGB = 'rgb(236,213,255)';
 const Login = () => {
   const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
-  const { handleLogin } = useAuth();
+  const { handleLogin, logout } = useAuth();
 
     const handleSubmit = async (values) => {
     try {
@@ -39,19 +39,7 @@ const Login = () => {
           password: values.password,
         }),
       });
-      if (response.ok) {
-        // If login is successful, store the token in local storage or manage it as needed
-        const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
-        message.success('Login successful!');
-        console.log('About to navigate to /');
-        navigate('/');
-      } else {
-        // Handle login error
-        console.error('Login failed');
-        // Display an error message
-        message.error('Login failed. Please check your credentials.');
-      }
+      handleLogin()
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
