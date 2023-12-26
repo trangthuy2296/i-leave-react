@@ -6,7 +6,7 @@ export const HomeLayout = () => {
   const outlet = useOutlet();
 
   if (accessToken) {
-    return <Navigate to="/dashboard" replace />;
+    return <Navigate to="/" replace />;
   }
 
   return (

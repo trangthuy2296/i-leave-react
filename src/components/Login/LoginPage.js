@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import { Input, Button, Row, Col, message } from 'antd';
 import './LoginPage.css'; // Import your custom CSS file
-import Logo from './logo.svg'
-import Bg from './assets/images/img-login.jpg'
-import validationSchema from './validationSchema';
+import Logo from '../../Images/logo.svg'
+import Bg from '../../Images/img-login.png';
+import validationSchema from '../../validationSchema';
 import { useNavigate } from 'react-router-dom';
 
 
