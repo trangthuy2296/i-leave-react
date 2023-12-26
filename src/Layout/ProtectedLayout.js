@@ -5,18 +5,19 @@ import {
   VideoCameraOutlined,
   UploadOutlined,
 } from '@ant-design/icons';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, useOutlet } from 'react-router-dom';
 import { useAuth } from '../Hook/useAuth';
 
 const { Header, Sider, Content } = Layout;
 
-export const ProtectedLayout = ({ children }) => {
+export const ProtectedLayout = () => {
   const { accessToken } = useAuth();
   const navigate = useNavigate();
 
-  if (accessToken) {
-    // Redirect to another page (e.g., /dashboard) if the user has a valid access token
-    return <Navigate to="/dashboard" />;
+  const outlet = useOutlet();
+
+  if (!accessToken) {
+    return <Navigate to="/login" />;
   }
 
   return (
@@ -36,8 +37,7 @@ export const ProtectedLayout = ({ children }) => {
             className="site-layout-background"
             style={{ padding: 24, minHeight: 360 }}
           >
-            {/* Render the content specific to the current route */}
-            {children}
+            {outlet}
           </div>
         </Content>
       </Layout>

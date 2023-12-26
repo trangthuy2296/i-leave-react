@@ -1,11 +1,12 @@
 // Login.js
 import React, { useState } from 'react';
 import { Form, Input, Button, message } from 'antd';
-import bg from './Images/img-login.png';
-import icon from './Images/ileave-icon.png';
+import bg from '../../Images/img-login.png';
+import icon from '../../Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../Hook/useAuth';
 
 
 // Creating schema
@@ -24,32 +25,37 @@ const Login = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  const { login } = useAuth();
+
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:7003/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email: values.email,
-          password: values.password,
-        }),
-      });
-      if (response.ok) {
-        // If login is successful, store the token in local storage or manage it as needed
-        const { accessToken } = await response.json();
-        localStorage.setItem('accessToken', accessToken);
-        message.success('Login successful!');
-        console.log('About to navigate to /');
-        navigate('/');
-      } else {
-        // Handle login error
-        console.error('Login failed');
-        // Display an error message
-        message.error('Login failed. Please check your credentials.');
-      }
+
+      login('test')
+
+      // const response = await fetch('http://localhost:7003/api/login', {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   body: JSON.stringify({
+      //     email: values.email,
+      //     password: values.password,
+      //   }),
+      // });
+      // if (response.ok) {
+      //   // If login is successful, store the token in local storage or manage it as needed
+      //   const { accessToken } = await response.json();
+      //   localStorage.setItem('accessToken', accessToken);
+      //   message.success('Login successful!');
+      //   console.log('About to navigate to /');
+      //   navigate('/');
+      // } else {
+      //   // Handle login error
+      //   console.error('Login failed');
+      //   // Display an error message
+      //   message.error('Login failed. Please check your credentials.');
+      // }
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
@@ -59,7 +65,7 @@ const Login = () => {
 
   return (
     <div className="login-container">
-      
+
       {/* Left section*/}
 
       <div className="image-container" style={{ backgroundColor: loginBGRGB }}>
@@ -84,7 +90,7 @@ const Login = () => {
         </div>
 
         {/* Signin form*/}
-        
+
         <Formik
           validationSchema={schema}
           initialValues={{ email: '', password: '' }}
@@ -109,7 +115,7 @@ const Login = () => {
                   placeholder="Enter your email"
                   value={values.email}
                   onChange={handleChange}
-                  //onBlur={handleBlur}
+                //onBlur={handleBlur}
                 />
               </Form.Item>
 
@@ -124,7 +130,7 @@ const Login = () => {
                   name="password"
                   value={values.password}
                   onChange={handleChange}
-                  //onBlur={handleBlur}
+                //onBlur={handleBlur}
                 />
               </Form.Item>
 
