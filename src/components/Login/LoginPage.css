@@ -61,7 +61,7 @@ p {
   text-align: right;
 }
 
-.label-errorr {
+.justify-between {
   display: flex;
   align-items: center;
   justify-content: space-between;

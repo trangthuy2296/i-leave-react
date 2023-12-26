@@ -71,7 +71,7 @@ const LoginPage = () => {
                     <Formik initialValues={initialValues} validationSchema={validationSchema} onSubmit={handleSubmit}>
                         <Form onFinish={handleSubmit}>
                             <div style={{ paddingBottom: 16 }}>
-                                <div style={{ paddingBottom: 8 }} className='label-errorr'> <label htmlFor="email"><b>Email</b></label><ErrorMessage name="email" component="ErrorMessage" className="error-message"/></div>
+                                <div style={{ paddingBottom: 8 }} className='justify-between'> <label htmlFor="email"><b>Email</b></label><ErrorMessage name="email" component="ErrorMessage" className="error-message"/></div>
                                 <Field className="custom-input-item" type="text" id="email" name="email" as={Input} 
                                     render={({ field, form }) => (
                                         <Input
@@ -87,7 +87,7 @@ const LoginPage = () => {
                             </div>
 
                             <div style={{ paddingBottom: 24 }}>
-                                <div style={{ paddingBottom: 8 }}className='label-errorr'><label htmlFor="password"><b>Password</b></label><ErrorMessage name="password" component="ErrorMessage" className="error-message" /></div>
+                                <div style={{ paddingBottom: 8 }}className='justify-between'><label htmlFor="password"><b>Password</b></label><ErrorMessage name="password" component="ErrorMessage" className="error-message" /></div>
                                 <Field className="custom-input-item" type="password" id="password" name="password" as={Input.Password}
                                     render={({ field, form }) => (
                                         <Input.Password
