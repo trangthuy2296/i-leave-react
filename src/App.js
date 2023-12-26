@@ -2,13 +2,14 @@
 import './App.css';
 //package
 import React from 'react';
-import { Route, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
+import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 //page
 import Login from './Component/Login/Login';
 import Dashboard from './Component/Home/Dashboard';
 import Settings from './Component/Home/Settings';
 import { ProtectedLayout } from './Layout/ProtectedLayout';
 import { AuthLayout } from './Layout/AuthLayout';
+import { HomeLayout } from './Layout/HomeLayout';
 
 const getUserData = () =>
   new Promise((resolve) => {
@@ -17,7 +18,6 @@ const getUserData = () =>
   }
   );
 
-
 export const router = createBrowserRouter(
   createRoutesFromElements(
     <Route
@@ -25,12 +25,15 @@ export const router = createBrowserRouter(
       loader={() => defer({ userPromise: getUserData() })}
     >
 
+      <Route element={<HomeLayout />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
+
       <Route element={<ProtectedLayout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="settings" element={<Settings />} />
       </Route>
 
-      <Route path="/login" element={<Login />} />
     </Route>
   )
 );

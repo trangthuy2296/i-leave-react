@@ -1,5 +1,7 @@
-import React from 'react';
 import { Table } from 'antd';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 
 const dataSource = [
   {
@@ -37,6 +39,8 @@ const columns = [
 ];
 
 const Dashboard = () => {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate(); 
   return <div>
 
     <h1>Dashboard</h1>

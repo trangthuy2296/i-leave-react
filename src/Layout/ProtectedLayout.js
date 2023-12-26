@@ -11,15 +11,13 @@ import { useAuth } from '../Hook/useAuth';
 
 const { Header, Sider, Content } = Layout;
 
-export const ProtectedLayout = ({ children }) => {
+export const ProtectedLayout = () => {
   const { accessToken } = useAuth();
   console.log('accessToken:', accessToken);
   const navigate = useNavigate();
   const outlet = useOutlet();
 
   if (!accessToken) {
-    // Redirect to another page (e.g., /dashboard) if the user has a valid access token
-    console.log('User not authenticated. Redirecting to login.');
     return <Navigate to="/login" />;
   }
 
