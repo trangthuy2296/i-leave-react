@@ -6,6 +6,7 @@ import {   Route, createBrowserRouter, createRoutesFromElements,defer } from "re
 //page
 import Login from './Login';
 import Dashboard from './Dashboard';
+import RequestListing from './RequestListing';
 import Settings from './Settings';
 import { ProtectedLayout } from './Component/ProtectedLayout';
 import { AuthLayout } from './Component/AuthLayout';
@@ -20,7 +21,7 @@ export const router = createBrowserRouter(
     >
 
         <Route path="/" element={<ProtectedLayout><Dashboard /></ProtectedLayout>} />
-
+        <Route path="/RequestListing" element={<ProtectedLayout><RequestListing /></ProtectedLayout>} />
         <Route path="/settings" element={<ProtectedLayout><Settings /></ProtectedLayout>} />
         <Route path="/login" element={<Login />} />
     </Route>
