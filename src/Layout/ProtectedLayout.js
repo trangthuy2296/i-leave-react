@@ -11,12 +11,15 @@ import { useAuth } from "../hooks/useAuth";
 const { Header, Sider, Content } = Layout;
 
 export const ProtectedLayout = () => {
-  const { user } = useAuth();
+  const { accessToken } = useAuth();
+  console.log('accessToken:', accessToken);
+  const navigate = useNavigate();
   const outlet = useOutlet();
 
-  if (!user) {
+  if (!accessToken) {
     return <Navigate to="/Login" />;
   }
+  
   return (
     <Layout style={{ minHeight: '100vh' }}>
       <Sider width={80} theme="dark" collapsible>
