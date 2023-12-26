@@ -4,27 +4,29 @@ import { useLocalStorage } from "./useLocalStorage";
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
+export const AuthProvider = ({ children, initialAccessToken }) => {
+  const [accessToken, setAccessToken] = useLocalStorage("accessToken", initialAccessToken || "");
   const navigate = useNavigate();
+  console.log('Initial accessToken from AuthProvider:', initialAccessToken);
+  console.log('Getting value from local storage:', accessToken, initialAccessToken );
 
   // call this function when you want to authenticate the user
   const login = useCallback(async (data) => {
-    setUser(data);
+    setAccessToken(data);
     navigate("/", { replace: true });
   }, [setUser, navigate]);
 
-  // call this function to sign out logged in user
+  // call this function to sign out logged in userß
   const logout = useCallback(() => {
     setAccessToken(null);
-    navigate("/Login", { replace: true });
+    navigate("/login", { replace: true });
   }, [setAccessToken, navigate]);
 
 
 
   const value = useMemo(
     () => ({
-      user: accessToken,
+      accessToken,
       login,
       logout
     }),
@@ -34,5 +36,14 @@ export const AuthProvider = ({ children }) => {
 };
 
 export const useAuth = () => {
-  return useContext(AuthContext);
+  const context = useContext(AuthContext);
+
+  // Log the current context for debugging
+  console.log('Current AuthContext:', context);
+
+  if (!context) {
+    throw new Error("useAuth must be used within an AuthProvider");
+  }
+
+  return context;
 };
