@@ -10,7 +10,6 @@ import {
 import { useNavigate, Navigate, useOutlet } from 'react-router-dom';
 import { useAuth } from '../Hook/useAuth';
 
-
 const { Header, Sider, Content } = Layout;
 
 
@@ -26,13 +25,9 @@ export const ProtectedLayout = () => {
   } = theme.useToken();
 
   /*/Dropdown button /*/
-  const handleMenuClick = (item) => {
-    setCurrentPage(item.label);
-  };
-
   const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item onClick={logout} key="dashboard" icon={<UserOutlined />}>
+    <Menu>
+      <Menu.Item onClick={logout} key="logout" icon={<UserOutlined />}>
         Logout
       </Menu.Item>
     </Menu>);
@@ -64,24 +59,28 @@ export const ProtectedLayout = () => {
             },
           ]}
         />
+
+        <Button
+          type="text"
+          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+          onClick={() => setCollapsed(!collapsed)}
+          style={{
+            fontSize: '16px',
+            width: 64,
+            height: 64,
+          }}
+        />
       </Sider>
 
       <Layout>
-        <Header style={{ display: 'flex', padding: 0, background: colorBgContainer, alignItems: 'center'}}>
-      
-            <Button
-              type="text"
-              icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-              onClick={() => setCollapsed(!collapsed)}
-              style={{
-                fontSize: '16px',
-                width: 64,
-                height: 64,
-              }}
-            />
-            <h2>{currentPage}</h2>
-   
+        <Header style={{ display: 'flex', padding: 24, background: colorBgContainer, alignItems: 'center', justifyContent: 'space-between', }}>
 
+          <h2>{currentPage}</h2>
+          <Dropdown overlay={menu} trigger={['click']}>
+              <Button onClick={(e) => e.preventDefault()} type="text">
+                UserVIP <DownOutlined />
+              </Button>
+            </Dropdown>
         </Header>
         <Content
           style={{

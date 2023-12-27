@@ -2,7 +2,7 @@
 import './App.css';
 //package
 import React from 'react';
-import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
+import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer, useRouteError } from "react-router-dom";
 //page
 import Login from './Component/Login/Login';
 import RequestListing from './Component/Home/RequestListing';
@@ -24,15 +24,20 @@ export const router = createBrowserRouter(
       loader={() => defer({ userPromise: getUserData() })}
     >
 
+      <Route element={<HomeLayout />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
+
       <Route element={<ProtectedLayout />}>
         <Route path="/" element={<Dashboard />} />
         <Route path="settings" element={<Settings />} />
       </Route>
+      
+
 
       <Route path="/login" element={<Login />} />
     </Route>
   )
 );
-
 
 //test branch
