@@ -5,7 +5,7 @@ import React from 'react';
 import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 //page
 import Login from './Component/Login/Login';
-import RequestListing from './RequestListing';
+import RequestListing from './Component/Home/RequestListing';
 import Settings from './Component/Home/Settings';
 import { ProtectedLayout } from './Layout/ProtectedLayout';
 import { AuthLayout } from './Layout/AuthLayout';

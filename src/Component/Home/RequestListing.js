@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import './App.css';
+import '../../App.css';
 import { Space, Table, Select, Button, Flex, Result } from 'antd';
 import { FormOutlined, MoreOutlined } from '@ant-design/icons';
 
@@ -101,29 +101,23 @@ useEffect(() => {
 ;
 
 const RequestListing = () => {
-    const [columns, setColumns] = useState([
-        {
-            title: '#',
-            dataIndex: 'id',
-        },
-        {
-            title: 'Quote',
-            dataIndex: 'quote',
-        },
-        {
-            title: 'Author',
-            dataIndex: 'author',
-        }
-    ]);
+    const [columns, setColumns] = useState([  ]);
     const [dataSource, setDataSource] = useState([]);
 
     useEffect(() => {
         fetch("https://dummyjson.com/quotes")
             .then((res) => res.json())
             .then((result) => {
-                setDataSource(result.quotes);
-            });
-    }, []);
+                const list = result.quotes || [];
+                const firstObject = list[0] || {
+                const col = {
+                    title: key,
+                    dataIndex: key,
+                };
+                close.push(col);
+            }
+            setColumns(cols)
+    },
 
     return (
         <div className="request-listing-container">
@@ -220,4 +214,4 @@ const RequestListing = () => {
         
             );
         }
-                export default RequestListing;
+                export default RequestListing;fix
