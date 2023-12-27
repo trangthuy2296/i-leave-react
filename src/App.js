@@ -5,11 +5,12 @@ import React from 'react';
 import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 //page
 import Login from './Component/Login/Login';
-import Dashboard from './Component/Home/Dashboard';
+import RequestListing from './RequestListing';
 import Settings from './Component/Home/Settings';
 import { ProtectedLayout } from './Layout/ProtectedLayout';
 import { AuthLayout } from './Layout/AuthLayout';
 import { HomeLayout } from './Layout/HomeLayout';
+
 
 const getUserData = () =>
   new Promise((resolve) => {
@@ -30,7 +31,7 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route element={<ProtectedLayout />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<RequestListing />} />
         <Route path="settings" element={<Settings />} />
       </Route>
 
