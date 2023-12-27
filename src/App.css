@@ -1,3 +1,11 @@
+:root {
+  --primary-color: #6143B1;
+  --primary-color-darken: #3e2483;
+  --primary-color-disabled: #e0d4ff;
+  --primary-hover-color: var(--primary-color-darken);
+}
+
+
 .App {
   text-align: center;
 }
@@ -72,13 +80,14 @@
   text-align: left;
 }
 
-.primary-button {
+.ant-btn.ant-btn-primary,
+.ant-btn-primary {
   height: 40px;
-  padding: 8px 24px;
-  background-color: #6143B1;
-  width: 100%;
   font-weight: 700;
-  margin-top: 8px;
+  background-color: var(--primary-color);
+  &:hover {
+    background-color: var(--primary-hover-color) !important;
+    border-color: var(--primary-hover-color) !important;}
 }
 
 .error-message-form {
