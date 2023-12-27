@@ -10,12 +10,11 @@ import {
 import { useNavigate, Navigate, useOutlet } from 'react-router-dom';
 import { useAuth } from '../Hook/useAuth';
 
-
 const { Header, Sider, Content } = Layout;
 
 
 export const ProtectedLayout = () => {
-  const { accessToken } = useAuth();
+  const { accessToken, logout } = useAuth();
   console.log('accessToken:', accessToken);
   const navigate = useNavigate();
   const outlet = useOutlet();
@@ -26,12 +25,9 @@ export const ProtectedLayout = () => {
   } = theme.useToken();
 
   /*/Dropdown button /*/
-  const handleMenuClick = (item) => {
-    setCurrentPage(item.label);
-  };
   const menu = (
-    <Menu onClick={handleMenuClick}>
-      <Menu.Item key="dashboard" icon={<UserOutlined />}>
+    <Menu>
+      <Menu.Item onClick={logout} key="logout" icon={<UserOutlined />}>
         Logout
       </Menu.Item>
     </Menu>);
@@ -80,7 +76,7 @@ export const ProtectedLayout = () => {
         <Header style={{ display: 'flex', padding: 24, background: colorBgContainer, alignItems: 'center', justifyContent: 'space-between', }}>
 
           <h2>{currentPage}</h2>
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu}>
               <Button onClick={(e) => e.preventDefault()} type="text">
                 UserVIP <DownOutlined />
               </Button>
