@@ -92,3 +92,7 @@
   line-height: 16px;
   font-weight: 700;
 }
+
+.full-screen-layout {
+  height: 100vh;
+}
