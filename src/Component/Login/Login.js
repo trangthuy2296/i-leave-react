@@ -24,7 +24,7 @@ const loginBGRGB = 'rgb(236,213,255)';
 const Login = () => {
   const [loading, setLoading] = useState(false); 
   const navigate = useNavigate();
-  const { handleLogin, logout } = useAuth();
+  const { handleLogin } = useAuth();
 
     const handleSubmit = async (values) => {
     try {
@@ -41,10 +41,9 @@ const Login = () => {
       });
 
       if (response.ok) {
-         // If login is successful, store the token in local storage or manage it as needed
-         const { accessToken } = await response.json();
+        const { accessToken, message:msg } = await response.json();
         await handleLogin({accessToken});
-        message.success('Login successful!');
+        message.success(msg);
 
       } else {
         // Handle login error
