@@ -2,7 +2,7 @@
 import './App.css';
 //package
 import React from 'react';
-import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
+import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer, useRouteError } from "react-router-dom";
 //page
 import Login from './Component/Login/Login';
 import RequestListing from './Component/Home/RequestListing';
@@ -28,16 +28,18 @@ export const router = createBrowserRouter(
 
       <Route element={<HomeLayout />}>
         <Route path="/login" element={<Login />} />
+        <Route path="*" element={<Login />} />
       </Route>
 
       <Route element={<ProtectedLayout />}>
         <Route path="/" element={<RequestListing />} />
         <Route path="settings" element={<Settings />} />
       </Route>
+      
+
 
     </Route>
   )
 );
-
 
 //test branch
