@@ -15,7 +15,7 @@ const { Header, Sider, Content } = Layout;
 
 
 export const ProtectedLayout = () => {
-  const { accessToken } = useAuth();
+  const { accessToken, logout } = useAuth();
   console.log('accessToken:', accessToken);
   const navigate = useNavigate();
   const outlet = useOutlet();
@@ -29,9 +29,10 @@ export const ProtectedLayout = () => {
   const handleMenuClick = (item) => {
     setCurrentPage(item.label);
   };
+
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="dashboard" icon={<UserOutlined />}>
+      <Menu.Item onClick={logout} key="dashboard" icon={<UserOutlined />}>
         Logout
       </Menu.Item>
     </Menu>);
