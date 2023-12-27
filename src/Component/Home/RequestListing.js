@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import './App.css';
+import '../../App.css';
 import { Space, Table, Select, Button, Flex, Result } from 'antd';
 import { FormOutlined, MoreOutlined } from '@ant-design/icons';
 
