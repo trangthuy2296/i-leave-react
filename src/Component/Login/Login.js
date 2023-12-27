@@ -39,7 +39,19 @@ const Login = () => {
           password: values.password,
         }),
       });
-      handleLogin()
+
+      if (response.ok) {
+         // If login is successful, store the token in local storage or manage it as needed
+         const { accessToken } = await response.json();
+        await handleLogin({accessToken});
+        message.success('Login successful!');
+
+      } else {
+        // Handle login error
+         console.error('Login failed');
+         // Display an error message
+        message.error('Login failed. Please check your credentials.');
+      }
     } catch (error) {
       console.error('Error during login:', error);
     } finally {
