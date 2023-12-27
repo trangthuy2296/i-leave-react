@@ -12,7 +12,6 @@ import { useAuth } from '../Hook/useAuth';
 
 const { Header, Sider, Content } = Layout;
 
-
 export const ProtectedLayout = () => {
   const { accessToken, logout } = useAuth();
   console.log('accessToken:', accessToken);
@@ -38,13 +37,12 @@ export const ProtectedLayout = () => {
   }
 
   return (
-    <Layout className="full-screen-layout" style={{ height: Flex }}>
+    <Layout className="full-screen-layout" style={{ minHeight: '100vh' }}>
       <Sider trigger={null} collapsible collapsed={collapsed}>
-        <div className="demo-logo-vertical" />
-
         <Menu
-          theme="dark"
+          theme="light"
           mode="inline"
+          style={{height:'100%', width: 240, padding: '40px 16px 40px 16px'}}
           defaultSelectedKeys={['1']}
           items={[
             {
@@ -73,7 +71,7 @@ export const ProtectedLayout = () => {
       </Sider>
 
       <Layout>
-        <Header style={{ display: 'flex', padding: 24, background: colorBgContainer, alignItems: 'center', justifyContent: 'space-between', }}>
+        <Header style={{ width: '100%', display: 'flex', padding: 24, background: '#f5f5f5', alignItems: 'center', justifyContent: 'space-between', }}>
 
           <h2>{currentPage}</h2>
           <Dropdown overlay={menu} trigger={['click']}>

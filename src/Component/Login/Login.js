@@ -8,6 +8,7 @@ import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Hook/useAuth';
 import '../../App.css'
+import './Login.css'
 
 // Creating schema
 const schema = Yup.object().shape({
