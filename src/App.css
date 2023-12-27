@@ -93,7 +93,10 @@
   font-weight: 700;
 }
 
-/* Request Listing */
+
+.full-screen-layout {
+  height: 100vh;
+}
 
 .request-listing-container {
   display: flex;
@@ -129,4 +132,3 @@
     font-size: 14px;
     line-height: 16px;
   }
-
