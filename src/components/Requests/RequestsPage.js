@@ -9,6 +9,20 @@ const { Content } = Layout;
 
 
 const Requests = () => {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const showModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleOk = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <Layout >
             <Content style={{ background: "#ffffff" }}>
@@ -33,7 +47,11 @@ const Requests = () => {
                             ]}
                         />
                     </div>
-                    <Button type="primary" icon={<PlusCircleOutlined />}>Create New Request</Button>
+                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>Create New Request</Button>
+                    <Modal title="Create New Request" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                        <p>Some contents...</p>
+                       
+                    </Modal>
                 </div>
 
                 <RequestTableList />

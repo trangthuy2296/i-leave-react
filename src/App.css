@@ -84,3 +84,6 @@
     background-color: #6143B1 !important;
     border-color: var(--primary-hover-color) !important;}
 }
+.ant-btn.ant-btn-default {
+  height: 40px;
+}

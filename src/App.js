@@ -7,7 +7,7 @@ import { ProtectedLayout } from "./Layout/ProtectedLayout";
 import { AuthLayout } from "./Layout/AuthLayout";
 import { HomeLayout } from "./Layout/HomeLayout";
 import LoginPage from './components/Login/LoginPage';
-import Requests from './components/Requests/Requests';
+import Requests from './components/Requests/RequestsPage';
 import Settings from './components/Home/Calendar';
 import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 
