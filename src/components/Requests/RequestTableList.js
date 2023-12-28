@@ -1,22 +1,35 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Table, Space, Button, Modal } from 'antd';
 import {
+    DashboardOutlined,
+    UserOutlined,
+    FileOutlined,
+    PlusCircleOutlined,
     FormOutlined, DeleteOutlined
 } from '@ant-design/icons';
+import axios from 'axios';
 
 const { confirm } = Modal;
 
-const dataSource = [
-    {
-        key: '1',
-        requester: 'John Doe',
-        leaveDuration: '2 days',
-        leaveDates: '2023-01-01 to 2023-01-02',
-        notes: 'Hello @channel.Thực đơn Cơm trưa vừa được tạo bởi @hailey. Mời bạn bấm vào đây để đặt đồ ăn',
-        sentOnSlack: '2023-01-01 10:00 AM',
-    },
-    // Add more data as needed
-];
+const RequestTableList = () => {
+    const [dataSource, setDataSource] = useState([]);
+  
+    const fetchData = async () => {
+      try {
+        const response = await axios.post('http://localhost:7003/api/requests/list', {
+          // Add your request parameters if needed
+        });
+  
+        setDataSource(response.data);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+  
+    useEffect(() => {
+      fetchData();
+    }, []); // Fetch data when the component mounts
+  
 
 const columns = [
     {
@@ -92,8 +105,7 @@ const handleDelete = (key) => {
     });
 };
 
-const RequestTableList = () => {
-    return <Table dataSource={dataSource} columns={columns} />
-}
+    return <Table dataSource={dataSource} columns={columns} />;
+};
 
 export default RequestTableList;
