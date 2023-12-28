@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Layout, Menu, Button, theme, PageHeader, Flex, Avatar, Dropdown } from 'antd';
 import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
   UserOutlined,
   VideoCameraOutlined,
   DownOutlined, 
 } from '@ant-design/icons';
+import LogoutIcon from '../Icon/Logout.svg'
 import { useNavigate, Navigate, useOutlet } from 'react-router-dom';
 import { useAuth } from '../Hook/useAuth';
+import '../App.css';
 
 const { Header, Sider, Content } = Layout;
 
@@ -26,7 +26,7 @@ export const ProtectedLayout = () => {
   /*/Dropdown button /*/
   const menu = (
     <Menu>
-      <Menu.Item onClick={logout} key="logout" icon={<UserOutlined />}>
+      <Menu.Item onClick={logout} key="logout" icon={<img src={LogoutIcon}/>}>
         Logout
       </Menu.Item>
     </Menu>);
@@ -38,12 +38,9 @@ export const ProtectedLayout = () => {
 
   return (
     <Layout className="full-screen-layout" style={{ minHeight: '100vh' }}>
-      <Sider trigger={null} collapsible collapsed={collapsed}>
+      <Sider width={240} >
         <Menu
-          theme="light"
-          mode="inline"
-          style={{height:'100%', width: 240, padding: '40px 16px 40px 16px'}}
-          defaultSelectedKeys={['1']}
+          style={{height:'100%', padding: '40px 16px 40px 16px'}}
           items={[
             {
               key: '1',
@@ -56,17 +53,6 @@ export const ProtectedLayout = () => {
               label: 'Settings',
             },
           ]}
-        />
-
-        <Button
-          type="text"
-          icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          onClick={() => setCollapsed(!collapsed)}
-          style={{
-            fontSize: '16px',
-            width: 64,
-            height: 64,
-          }}
         />
       </Sider>
 
