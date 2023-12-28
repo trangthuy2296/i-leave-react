@@ -42,7 +42,7 @@ const RequestTableList = () => {
         },
         {
             title: 'Requester',
-            dataIndex: 'createdBy', // Use dot notation to access nested property
+            dataIndex: 'createdBy.name', // Use dot notation to access nested property
             key: 'createdBy'
             
         },
