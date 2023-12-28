@@ -6,7 +6,7 @@ import Logo from '../../Images/logo.svg'
 import Bg from '../../Images/img-login.png';
 import validationSchema from '../../validationSchema';
 import { useNavigate } from 'react-router-dom';
-
+import { useAuth } from '../../hooks/useAuth';
 
 const LoginPage = () => {
 
@@ -16,6 +16,7 @@ const LoginPage = () => {
     };
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
+    const { handleLogin, logout } = useAuth();
 
     const handleSubmit = async (values) => {
         try {
@@ -33,10 +34,8 @@ const LoginPage = () => {
             if (response.ok) {
                 // If login is successful, store the token in local storage or manage it as needed
                 const { accessToken } = await response.json();
-                localStorage.setItem('accessToken', accessToken);
+                await handleLogin({accessToken});
                 message.success('Login successful!');
-                console.log('About to navigate to /');
-                navigate('/');
             } else {
                 // Handle login error
                 console.error('Login failed');
