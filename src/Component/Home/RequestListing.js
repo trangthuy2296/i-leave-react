@@ -62,8 +62,8 @@ const RequestListing = () => {
 
 
     useEffect(() => {
-        const dataType = "requests";
-        axios.get(`http://localhost:7003/api/${dataType}`)
+        const dataType = "requests/list";
+        axios.post(`http://localhost:7003/api/${dataType}`)
             .then(res => {
                 //the API response data is an array of objects
                 setDataSource(res.data || []);
