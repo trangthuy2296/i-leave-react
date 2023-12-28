@@ -42,7 +42,7 @@ const Login = () => {
       });
 
       if (response.ok) {
-        const { accessToken, message:msg } = await response.json();
+        const { accessToken, message: msg } = await response.json();
         await handleLogin({accessToken});
         message.success(msg);
 
