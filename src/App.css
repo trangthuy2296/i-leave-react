@@ -75,3 +75,12 @@
   max-width: 300px; /* Adjust the width of the form */
 }
 
+.ant-btn.ant-btn-primary,
+.ant-btn-primary {
+  height: 40px;
+  font-weight: 700;
+  background-color: #6143B1;
+  &:hover {
+    background-color: #6143B1 !important;
+    border-color: var(--primary-hover-color) !important;}
+}

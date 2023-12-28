@@ -1,9 +1,6 @@
 import React, { useState } from 'react';
 import { Layout, Menu } from 'antd';
 import {
-  UserOutlined,
-  VideoCameraOutlined,
-  UploadOutlined,
   FormOutlined,
   CalendarOutlined,
 } from '@ant-design/icons';
@@ -17,7 +14,6 @@ const { Sider, Content } = Layout;
 export const ProtectedLayout = () => {
   const { accessToken } = useAuth();
   console.log('accessToken:', accessToken);
-  console.log('accessToken.email:', accessToken.email);
   const navigate = useNavigate();
   const outlet = useOutlet();
   const [currentPage, setCurrentPage] = useState('Requests');
@@ -29,8 +25,19 @@ export const ProtectedLayout = () => {
 
   const handleMenuClick = ({ key }) => {
     setCurrentPage(key);
-    // Add additional logic if needed for each menu item
+    switch (key) {
+      case 'Requests':
+        navigate('/');
+        break;
+      case 'Calendar':
+        navigate('/calendar');
+        break;
+      // Add more cases for additional menu items if needed
+      default:
+        break;
+    }
   };
+
 
   return (
     <Layout style={{ minHeight: '100vh' }}>
@@ -69,8 +76,8 @@ export const ProtectedLayout = () => {
       </Sider>
 
       <Layout className="site-layout">
-      <AppHeader userEmail={accessToken.email} currentPage={currentPage} setCurrentPage={setCurrentPage} />
-        <Content style={{ margin: '24px 24px 24px 24px', background: "#ffffff", borderRadius: 8, }}>
+      <AppHeader userEmail='Khong get dc user email' currentPage={currentPage} setCurrentPage={setCurrentPage} />
+        <Content style={{ margin: '24px 24px 24px 24px', background: "#ffffff", borderRadius: 8 }}>
           <div
             style={{
               padding: 24,

@@ -8,7 +8,7 @@ const { Header } = Layout;
 
 const AppHeader = ({ userEmail, currentPage, setCurrentPage }) => {
   const navigate = useNavigate();
-  const { logout } = useAuth(); 
+  const { logout,  } = useAuth(); 
   console.log('userEmail:', userEmail);
   
 
@@ -43,7 +43,7 @@ const AppHeader = ({ userEmail, currentPage, setCurrentPage }) => {
           </span>
         )}
         <Dropdown overlay={userMenu} trigger={['click']}>
-          <Button onClick={(e) => e.preventDefault()} type="text">
+          <Button onClick={(e) => e.preventDefault()} type="text" style={{fontSize:16, fontWeight:600}}>
             {userEmail} <DownOutlined />
           </Button>
         </Dropdown>

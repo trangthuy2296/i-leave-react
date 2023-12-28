@@ -8,7 +8,7 @@ import {
 
 const { Sider, Content, Header } = Layout;
 
-const Settings = () => {
+const Calendar = () => {
     return (
         <Layout style={{ minHeight: '100vh' }}>
                <Layout>
@@ -21,4 +21,4 @@ const Settings = () => {
     );
 };
 
-export default Settings;
+export default Calendar;
