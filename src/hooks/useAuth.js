@@ -4,10 +4,12 @@ import { useLocalStorage } from "./useLocalStorage";
 
 const AuthContext = createContext();
 
+
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const navigate = useNavigate();
   console.log('Getting value from local storage:', accessToken );
+  console.log('accessToken:', accessToken);
 
   // call this function when you want to authenticate the user
   const handleLogin = useCallback(async (data) => {

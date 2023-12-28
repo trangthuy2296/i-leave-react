@@ -7,7 +7,7 @@ import { ProtectedLayout } from "./Layout/ProtectedLayout";
 import { AuthLayout } from "./Layout/AuthLayout";
 import { HomeLayout } from "./Layout/HomeLayout";
 import LoginPage from './components/Login/LoginPage';
-import Dashboard from './components/Home/Dashboard';
+import Requests from './components/Home/Requests';
 import Settings from './components/Home/Settings';
 import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer } from "react-router-dom";
 
@@ -30,7 +30,7 @@ export const router = createBrowserRouter(
       </Route>
 
       <Route element={<ProtectedLayout />}>
-        <Route path="/" element={<Dashboard />} />
+        <Route path="/" element={<Requests />} />
         <Route path="settings" element={<Settings />} />
       </Route>
 
