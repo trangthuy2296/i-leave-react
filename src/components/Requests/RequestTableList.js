@@ -8,102 +8,117 @@ import {
     FormOutlined, DeleteOutlined
 } from '@ant-design/icons';
 import axios from 'axios';
+import { differenceInDays, format, getYear } from 'date-fns';
 
 const { confirm } = Modal;
 
 const RequestTableList = () => {
     const [dataSource, setDataSource] = useState([]);
-  
+
     const fetchData = async () => {
-      try {
-        const response = await axios.post('http://localhost:7003/api/requests/list', {
-          // Add your request parameters if needed
-        });
-  
-        setDataSource(response.data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
+        try {
+            const response = await axios.post('http://localhost:7003/api/requests/list', {
+                // Add your request parameters if needed
+            });
+
+            // Add an index to each item in the data array
+            const dataWithIndex = response.data.map((item, index) => ({ ...item, key: (index + 1).toString() }));
+
+            setDataSource(dataWithIndex);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
     };
-  
+
     useEffect(() => {
-      fetchData();
-    }, []); // Fetch data when the component mounts
-  
+        fetchData();
+    }, []);
 
-const columns = [
-    {
-        title: '#',
-        dataIndex: 'key',
-        key: 'key',
-    },
-    {
-        title: 'Requester',
-        dataIndex: 'requester',
-        key: 'requester',
-    },
-    {
-        title: 'Leave Duration',
-        dataIndex: 'leaveDuration',
-        key: 'leaveDuration',
-    },
-    {
-        title: 'Leave Dates',
-        dataIndex: 'leaveDates',
-        key: 'leaveDates',
-    },
-    {
-        title: 'Notes',
-        dataIndex: 'notes',
-        key: 'notes',
-    },
-    {
-        title: 'Sent on Slack at',
-        dataIndex: 'sentOnSlack',
-        key: 'sentOnSlack',
-    },
-    {
-        title: 'Action',
-        key: 'action',
-        align: 'center', 
-        render: (text, record) => (
-            <Space size='middle'>
-                <Button
-                    type='link'
-                    icon={<FormOutlined />}
-                    onClick={() => handleEdit(record.key)}
-                >
-                </Button>
-                <Button
-                    type='danger'
-                    icon={<DeleteOutlined />}
-                    onClick={() => handleDelete(record.key)}
-                    style={{ color: 'red' }}
-                >
-                </Button>
-            </Space>
-        ),
-    },
-];
-
-const handleEdit = (key) => {
-    // Add edit logic here
-    console.log(`Edit request with key: ${key}`);
-};
-
-const handleDelete = (key) => {
-    confirm({
-        title: 'Are you sure you want to delete this request?',
-        icon: <DeleteOutlined />,
-        okText: 'Yes',
-        okType: 'danger',
-        cancelText: 'No',
-        onOk() {
-            // Add delete logic here
-            console.log(`Delete request with key: ${key}`);
+    const columns = [
+        {
+            title: '#',
+            dataIndex: 'key',
+            key: 'key',
         },
-    });
-};
+        {
+            title: 'Requester',
+            dataIndex: 'createdBy', // Use dot notation to access nested property
+            key: 'createdBy'
+            
+        },
+        {
+            title: 'Leave Duration',
+            key: 'leaveDuration',
+            render: (_, record) => {
+                const duration = differenceInDays(record.endDate, record.startDate);
+                return `${duration + 1} days`;
+            },
+        },
+        {
+            title: 'Leave Dates',
+            dataIndex: 'leaveDates',
+            key: 'leaveDates',
+            render: (_, record) => {
+                const startDateFormatted = format(record.startDate, 'dd MMM');
+                const endDateFormatted = format(record.endDate, 'dd MMM');
+
+                return startDateFormatted === endDateFormatted
+                    ? startDateFormatted
+                    : `${startDateFormatted} - ${endDateFormatted} ${getYear(record.startDate)}`;
+            },
+        },
+        {
+            title: 'Notes',
+            dataIndex: 'note',
+            key: 'note',
+        },
+        {
+            title: 'Sent on Slack at',
+            dataIndex: 'statusOnSlack',
+            key: 'statusOnSlack',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            align: 'center',
+            render: (text, record) => (
+                <Space size='small'>
+                    <Button
+                        type='link'
+                        icon={<FormOutlined />}
+                        onClick={() => handleEdit(record.key)}
+                    >
+                    </Button>
+                    <Button
+                        type='danger'
+                        icon={<DeleteOutlined />}
+                        onClick={() => handleDelete(record.key)}
+                        style={{ color: 'red' }}
+                    >
+                    </Button>
+                </Space>
+            ),
+        },
+    ];
+
+    const handleEdit = (key) => {
+        // Add edit logic here
+        console.log(`Edit request with key: ${key}`);
+    };
+
+    const handleDelete = (key) => {
+        confirm({
+            title: 'Are you sure you want to delete this request?',
+            icon: <DeleteOutlined />,
+            okText: 'Yes',
+            okType: 'danger',
+            cancelText: 'No',
+            onOk() {
+                // Add delete logic here
+                console.log(`Delete request with key: ${key}`);
+            },
+        });
+    };
 
     return <Table dataSource={dataSource} columns={columns} />;
 };
