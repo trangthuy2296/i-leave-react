@@ -1,12 +1,10 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-
-import axios from "axios"
+import axios from "axios";
+import { formatDistance, subDays } from "date-fns";
 import '../../App.css';
 import { Space, Table, Select, Button, Flex, Result } from 'antd';
 import { FormOutlined, MoreOutlined } from '@ant-design/icons';
-
-
 
 
 
@@ -31,9 +29,14 @@ const RequestListing = () => {
         },
         {
            key: '3',
-            title: 'Leave Dates',
+            title: 'Start Date',
             dataIndex: 'startDate',
         },
+        {
+            key: '3',
+             title: 'End Date',
+             dataIndex: 'endDate',
+         },
         {
             key: '4',
             title: 'Note',
@@ -56,15 +59,17 @@ const RequestListing = () => {
                 </Space>
             ),
         }];
-    
-    const dataType = "requests";
+
 
     useEffect(() => {
-        
-        const result = axios.get(`http://localhost:7003/api/${dataType}`)
-            .then(res => setDataSource(res.data))
+        const dataType = "requests";
+        axios.get(`http://localhost:7003/api/${dataType}`)
+            .then(res => {
+                //the API response data is an array of objects
+                setDataSource(res.data || []);
+            })
             .catch(err => console.log(err));
-    },[]);
+    }, []);
     return (
         <div className="request-listing-container">
             <div className="request-listing-header">
@@ -72,11 +77,12 @@ const RequestListing = () => {
                     <label className="typo">Date</label>
                     <Select
                         defaultValue="Today"
-
                         style={{ width: 120 }}
                         onChange={(value) => handleChange(value, 'Date')}
                         options={[
-                            // Options for Date Select
+                            { value: 'Today', label: 'Today' },
+                            { value: 'This week', label: 'This week' },
+                            { value: 'This month', label: 'This month' }
                         ]}
                     />
                     <label className="typo">Member</label>
@@ -85,7 +91,10 @@ const RequestListing = () => {
                         style={{ width: 120 }}
                         onChange={(value) => handleChange(value, 'Member')}
                         options={[
-
+                            { value: 'All', label: 'All' },
+                            { value: 'Barry', label: 'Barry' },
+                            { value: 'Ann', label: 'Ann' },
+                            { value: 'Leo', label: 'Leo' }
                         ]}
                     />
                 </Space>
@@ -98,14 +107,15 @@ const RequestListing = () => {
             <div className="request-listing-table">
                 <Table 
                 columns={columns} 
-                dataSource={dataSource.map((requests, dataIndex) => (
+                dataSource={dataSource
+                   /* .map((requests, dataIndex) => (
                     <tr key={dataIndex}>
                         <td>{requests.index}</td>
                         <td>{requests._id}</td>
                         <td>{requests.startDate}</td>
                         <td>{requests.note}</td>
                     </tr>
-                ))} 
+                   )) */ } 
                 bordered 
                 scroll={{ y: 900 }} />
             </div>
