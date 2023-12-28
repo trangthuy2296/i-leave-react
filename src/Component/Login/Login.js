@@ -7,7 +7,8 @@ import { Formik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Hook/useAuth';
-
+import '../../App.css'
+import './Login.css'
 
 // Creating schema
 const schema = Yup.object().shape({
@@ -23,8 +24,8 @@ const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
-  const { handleLogin, logout } = useAuth();
+
+  const { handleLogin } = useAuth();
 
   const handleSubmit = async (values) => {
     try {
@@ -41,16 +42,13 @@ const Login = () => {
       });
 
       if (response.ok) {
-         // If login is successful, store the token in local storage or manage it as needed
-         const { accessToken, message: msg } = await response.json();
+        const { accessToken, message: msg } = await response.json();
         await handleLogin({accessToken});
         message.success(msg);
 
       } else {
-        // Handle login error
-         console.error('Login failed');
-         // Display an error message
-        message.error('Login failed. Please check your credentials.');
+        const {message:msg } = await response.json();
+        message.error(msg);
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -133,7 +131,7 @@ const Login = () => {
               <Form.Item
                 wrapperCol={{ span: 24 }}
               >
-                <Button type="primary" htmlType="submit" className="primary-button">
+                <Button type="primary" htmlType="submit" block>
                   Sign in {/* Use the "primary-button" class */}
                 </Button>
               </Form.Item>
