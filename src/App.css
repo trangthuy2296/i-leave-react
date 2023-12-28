@@ -3,6 +3,8 @@
   --primary-color-darken: #3e2483;
   --primary-color-disabled: #e0d4ff;
   --primary-hover-color: var(--primary-color-darken);
+
+  --neutral-100: rgba(239, 242, 245, 1);
 }
 
 
@@ -70,6 +72,7 @@
 
 .full-screen-layout {
   height: 100vh;
+  background: var(--neutral-100);
 }
 
 .request-listing-container {
