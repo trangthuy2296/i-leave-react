@@ -14,7 +14,7 @@ const Settings = () => {
                <Layout>
                 <Content style={{ margin: '16px' }}>
                     {/* Your dashboard content goes here */}
-                    <h1>Welcome to the Dashboard</h1>
+                    <h1>This is settings page</h1>
                 </Content>
             </Layout>
         </Layout>
