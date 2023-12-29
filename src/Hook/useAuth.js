@@ -1,6 +1,7 @@
 import React, { useEffect, createContext, useCallback, useContext, useMemo } from "react";
 import { useNavigate, Outlet} from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
+import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
@@ -8,6 +9,17 @@ export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const navigate = useNavigate();
   console.log('Getting value from local storage:', accessToken );
+
+    // Function to verify the validity of the access token
+    const isTokenValid = useCallback((token) => {
+      try {
+        const decodedToken = jwtDecode(token);
+        const currentTime = Date.now() / 1000; // Convert milliseconds to seconds
+        return decodedToken.exp > currentTime;
+      } catch (error) {
+        return false;
+      }
+    }, []);
 
   // call this function when you want to authenticate the user
   const handleLogin = useCallback(async (data) => {
@@ -23,6 +35,14 @@ export const AuthProvider = ({ children }) => {
     navigate("/login", { replace: true });
   }, [setAccessToken, navigate]);
 
+    // Check if the stored token is valid during initialization
+    useEffect(() => {
+      if (accessToken && !isTokenValid(accessToken)) {
+        // If the token is not valid, log the user out
+        setAccessToken(null);
+        navigate("/login", { replace: true });
+      }
+    }, [accessToken, isTokenValid, setAccessToken, navigate]);
 
   const value = useMemo(
     () => ({
