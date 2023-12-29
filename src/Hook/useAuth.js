@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo } from "react";
+import React, { useEffect, createContext, useCallback, useContext, useMemo } from "react";
 import { useNavigate, Outlet} from "react-router-dom";
 import { useLocalStorage } from "./useLocalStorage";
 
@@ -12,7 +12,8 @@ export const AuthProvider = ({ children }) => {
   // call this function when you want to authenticate the user
   const handleLogin = useCallback(async (data) => {
     console.log('Setting accessToken:', data);
-    setAccessToken(data);
+    const token = data.accessToken;
+    setAccessToken(token);
     navigate("/", { replace: true });
   }, [setAccessToken, navigate]);
 
