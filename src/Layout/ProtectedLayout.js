@@ -76,7 +76,7 @@ export const ProtectedLayout = () => {
       </Sider>
 
       <Layout className="site-layout">
-      <AppHeader userEmail='Khong get dc user email' currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <AppHeader currentPage={currentPage} setCurrentPage={setCurrentPage} />
         <Content style={{ margin: '24px 24px 24px 24px', background: "#ffffff", borderRadius: 8 }}>
           <div
             style={{

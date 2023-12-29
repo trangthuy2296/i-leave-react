@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Space, Button, Modal } from 'antd';
+import { Table, Space, Button, Modal, Popconfirm } from 'antd';
 import {
     DashboardOutlined,
     UserOutlined,
@@ -17,34 +17,43 @@ const RequestTableList = () => {
 
     const fetchData = async () => {
         try {
-            const response = await axios.post('http://localhost:7003/api/requests/list', {
-                // Add your request parameters if needed
-            });
-
-            // Add an index to each item in the data array
-            const dataWithIndex = response.data.map((item, index) => ({ ...item, key: (index + 1).toString() }));
-
+          const response = await axios.get('http://localhost:7003/api/requests', {
+            params: {
+              fromDate: '2000-01-01',
+              toDate: '2024-12-31',
+              userId: 'all',
+              limit: 1000,
+              offset: 0,
+            },
+          });
+      
+          if (response.data && Array.isArray(response.data.requests)) {
+            const dataWithIndex = response.data.requests.map((item, index) => ({
+              ...item,
+              key: (index +1).toString(),
+            }));
             setDataSource(dataWithIndex);
+          } else {
+            console.error('API response data.requests property is not an array:', response.data);
+          }
         } catch (error) {
-            console.error('Error fetching data:', error);
+          console.error('Error fetching data:', error);
         }
-    };
-
-    useEffect(() => {
+      };
+      
+      useEffect(() => {
         fetchData();
-    }, []);
+      }, []);
 
     const columns = [
         {
             title: '#',
             dataIndex: 'key',
-            key: 'key',
         },
         {
             title: 'Requester',
-            dataIndex: 'createdBy.name', // Use dot notation to access nested property
-            key: 'createdBy'
-            
+            key: 'createdBy.name',
+            render: (text, record) => record.createdBy.name,
         },
         {
             title: 'Leave Duration',
@@ -106,13 +115,19 @@ const RequestTableList = () => {
                         onClick={() => handleEdit(record.key)}
                     >
                     </Button>
+                    <Popconfirm
+                    title="Are you sure you want to delete this request?"
+                    onConfirm={() => handleDelete(record._id)}
+                    okText="Yes"
+                    cancelText="No"
+                >
                     <Button
                         type='danger'
                         icon={<DeleteOutlined />}
-                        onClick={() => handleDelete(record.key)}
                         style={{ color: 'red' }}
                     >
                     </Button>
+                </Popconfirm>
                 </Space>
             ),
         },
@@ -123,19 +138,37 @@ const RequestTableList = () => {
         console.log(`Edit request with key: ${key}`);
     };
 
-    const handleDelete = (key) => {
-        confirm({
-            title: 'Are you sure you want to delete this request?',
-            icon: <DeleteOutlined />,
-            okText: 'Yes',
-            okType: 'danger',
-            cancelText: 'No',
-            onOk() {
-                // Add delete logic here
-                console.log(`Delete request with key: ${key}`);
-            },
-        });
+    const handleDelete = async (_id) => {
+        try {
+            const response = await axios.delete(`http://localhost:7003/api/requests/${_id}`);
+    
+            if (response.status === 200) {
+                // Request successfully deleted, you may want to update the local state or refetch data
+                console.log(`Request with key ${_id} deleted successfully`);
+                window.location.reload();
+            } else {
+                console.error(`Failed to delete request with key ${_id}`);
+            }
+        } catch (error) {
+            console.error('Error deleting request:', error);
+        }
     };
+
+  /*  const deleteRequest = async (key) => {
+        try {
+          // Make an HTTP DELETE request to your API endpoint
+          const response = await axios.delete(`http://localhost:7003/api/requests/${key}`);
+    
+          // Handle success or show a notification to the user
+          console.log('Request deleted successfully:', response.data);
+    
+          // After deleting, you may want to refresh the data by fetching it again
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting request:', error);
+          // Handle error or show a notification to the user
+        }
+      };*/
 
     return <Table dataSource={dataSource} columns={columns} />;
 };
