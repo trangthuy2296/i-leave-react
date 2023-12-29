@@ -10,6 +10,8 @@ import Settings from './Component/Home/Settings';
 import { ProtectedLayout } from './Layout/ProtectedLayout';
 import { AuthLayout } from './Layout/AuthLayout';
 import { HomeLayout } from './Layout/HomeLayout';
+import CreateLeaveReq3 from './CreateLeaveReq3';
+import CreateLeaveReq2 from './CreateLeaveReq2';
 
 
 const getUserData = () =>
@@ -26,13 +28,18 @@ export const router = createBrowserRouter(
       loader={() => defer({ userPromise: getUserData() })}
     >
 
+      
+
       <Route element={<HomeLayout />}>
         <Route path="/login" element={<Login />} />
       </Route>
 
       <Route element={<ProtectedLayout />}>
         <Route path="/" element={<RequestListing />} />
-        <Route path="settings" element={<Settings />} />
+        <Route path="/settings" element={<Settings />} />
+        <Route path="/newRequest" element={<CreateLeaveReq3 />} />
+        <Route path="/test" element={<CreateLeaveReq2 />} />
+
       </Route>
 
     </Route>

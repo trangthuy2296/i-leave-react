@@ -130,3 +130,14 @@
     line-height: 16px;
   }
 
+
+  .label-font {
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 32px;
+  }
+
+  .modal-vertical-block {
+    display: flex;
+    flex-direction: column;
+  }
