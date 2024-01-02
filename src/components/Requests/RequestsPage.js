@@ -6,10 +6,12 @@ import {
 import RequestTableList from './RequestTableList';
 
 const { Content } = Layout;
-
+const { Option } = Select;
 
 const Requests = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [dateFilter, setDateFilter] = useState('ThisWeek');
+    const [selectedMember, setSelectedMember] = useState('all');
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -23,41 +25,57 @@ const Requests = () => {
         setIsModalOpen(false);
     };
 
+    const handleDateFilterChange = (value) => {
+        setDateFilter(value);
+    };
+
+    const handleMemberFilterChange = (value) => {
+        setSelectedMember(value);
+    };
+
     return (
-        <Layout >
+        <Layout>
             <Content style={{ background: "#ffffff" }}>
-                {/* Your dashboard content goes here */}
                 <div className='justify-between' style={{ paddingBottom: 16 }}>
                     <div style={{ gap: 16, display: 'inline-flex', alignItems: 'center' }}>
                         Date
                         <Select
-                            defaultValue="Today"
+                            value={dateFilter}
                             style={{ width: 200, height: 40 }}
-                            allowClear
-                            options={[{ value: 'Today', label: 'Today' }]}
-                        />
+                            onChange={handleDateFilterChange}
+                        >
+                            <Option value="NextMonth">Next Month</Option>
+                            <Option value="ThisMonth">This Month</Option>
+                            <Option value="NextWeek">Next Week</Option>
+                            
+                            <Option value="ThisWeek">This Week</Option>
+                            <Option value="LastWeek">Last Week</Option>
+                            <Option value="LastMonth">Last Month</Option>
+                            <Option value="All">All</Option>
+                        </Select>
                         Member
                         <Select
-                            defaultValue="1"
+                            value={selectedMember}
                             style={{ width: 200, height: 40 }}
                             allowClear
                             options={[
-                                { value: '1', label: 'All' },
-                                { value: '2', label: 'Leo' },
+                                { value: 'all', label: 'All' },
+                                { value: 'leo', label: 'Leo' },
+                                { value: 'kevin', label: 'Kevin' },
                             ]}
+                            onChange={handleMemberFilterChange}
                         />
                     </div>
-                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>Create New Request</Button>
-                    <Modal title="Create New Request" open={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
+                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>
+                        Create New Request
+                    </Button>
+                    <Modal title="Create New Request" visible={isModalOpen} onOk={handleOk} onCancel={handleCancel}>
                         <p>Some contents...</p>
-                       
                     </Modal>
                 </div>
 
-                <RequestTableList />
+                <RequestTableList dateFilter={dateFilter} selectedMember={selectedMember} />
             </Content>
-
-
         </Layout>
     );
 };
