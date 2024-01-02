@@ -18,7 +18,7 @@ export const ProtectedLayout = () => {
   console.log('accessToken:', accessToken);
   const navigate = useNavigate();
   const outlet = useOutlet();
-  const [currentPage, setCurrentPage] = useState('RequestListing');
+  const [currentPage, setCurrentPage] = useState('Request Listing');
   const {
     token: { colorBgContainer, borderRadiusLG },
   } = theme.useToken();
@@ -44,13 +44,13 @@ export const ProtectedLayout = () => {
         <Menu
           style={{ height: '100%', padding: '0px 16px 40px 16px' }}
           selectedKeys={[currentPage]}
-          defaultSelectedKeys={['RequestListing']}
+          defaultSelectedKeys={['Request Listing']}
           onClick={(e) => {
             setCurrentPage(e.key);
             navigate(`/${e.key.toLowerCase()}`); // Update the route dynamically
           }}
         >
-          <Menu.Item key="RequestListing" icon={<UserOutlined />}>
+          <Menu.Item key="Request Listing" icon={<UserOutlined />}>
             <Link to="/">Request Listing</Link>
           </Menu.Item>
           <Menu.Item key="Settings" icon={<VideoCameraOutlined />}>
