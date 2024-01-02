@@ -50,7 +50,7 @@ const RequestListing = () => {
 
     const fetchUserListing = async () => {
         try {
-            const response = await axios.get('/users');
+            const response = await api.get('/users');
             const usernames = response.data.map((user) => ({
                 value: user._id, // Replace with user ID or unique identifier
                 label: user.name, // Replace with the property containing username
@@ -75,9 +75,6 @@ const RequestListing = () => {
     useEffect(() => {
         // Call the API with updated filter values (fromDate, toDate, userID)
         // Fetch data for the table using the updated filters
-        // ...
-
-        // Example: Call RequestTable component passing the filters as props
     }, [fromDate, toDate, userID]);
 
     return (
@@ -100,11 +97,11 @@ const RequestListing = () => {
 
                     Member
                     <Select
-                        defaultValue="All"
+                        defaultValue="all"
                         style={{ width: 120 }}
                         onChange={handleMemberChange}
                         options={[
-                            { value: 'All', label: 'All' },
+                            { value: 'all', label: 'All' },
                             
                             ...userOptions,
                         ]}
