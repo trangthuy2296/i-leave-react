@@ -9,11 +9,6 @@ import RequestTable from './RequestTable';
 import api from './ApiDefine';
 
 
-const handleChange = (value, field) => {
-    // Add logic for handling different Select components
-    console.log(`Selected ${value} for ${field}`);
-    // Implement specific logic for each Select component's value change
-};
 const RequestListing = () => {
     
     //Date filter
@@ -39,8 +34,8 @@ const RequestListing = () => {
             setFromDate(startOfCurrentMonth);
             setToDate(endOfCurrentMonth);
         }
-        setFromDate(fromDate);
-        setToDate(toDate);
+        //setFromDate(fromDate);
+        //setToDate(toDate);
     };
 
     //Member filter
