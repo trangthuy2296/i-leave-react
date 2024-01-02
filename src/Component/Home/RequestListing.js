@@ -1,11 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { formatDistance, subDays } from "date-fns";
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import '../../App.css';
-import { Space, Table, Select, Button, Flex, Result } from 'antd';
-import { FormOutlined, MoreOutlined } from '@ant-design/icons';
+import { Space, Select, Button, Flex } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import RequestTable from './RequestTable';
+import api from './ApiDefine';
 
 
 const handleChange = (value, field) => {
@@ -14,45 +15,116 @@ const handleChange = (value, field) => {
     // Implement specific logic for each Select component's value change
 };
 const RequestListing = () => {
+    
+    //Date filter
+    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
+    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const handleDateChange = (value) => {
+        // Set fromDate and toDate accordingly based on the selected value
+        if (value === 'All') {
+            setFromDate(new Date('2000-12-28'));
+            setToDate(new Date ('2100-12-31'));
+        }  else if (value === 'Today') {
+            const todayStart = startOfDay(new Date());
+            const todayEnd = endOfDay(new Date());
+            setFromDate(todayStart);
+            setToDate(todayEnd);
+        } else if (value === 'This week') {
+            const startOfCurrentWeek = startOfWeek(new Date());
+            const endOfCurrentWeek = endOfWeek(new Date());
+            setFromDate(startOfCurrentWeek);
+            setToDate(endOfCurrentWeek);
+        } else if (value === 'This month') {
+            const startOfCurrentMonth = startOfMonth(new Date());
+            const endOfCurrentMonth = endOfMonth(new Date());
+            setFromDate(startOfCurrentMonth);
+            setToDate(endOfCurrentMonth);
+        }
+        setFromDate(fromDate);
+        setToDate(toDate);
+    };
+
+    //Member filter
+    const [userID, setUserID] = useState('all');
+    const [userOptions, setUserOptions] = useState([]);
+
+    const fetchUserListing = async () => {
+        try {
+            const response = await axios.get('/users');
+            const usernames = response.data.map((user) => ({
+                value: user._id, // Replace with user ID or unique identifier
+                label: user.name, // Replace with the property containing username
+            }));
+
+            setUserOptions(usernames);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserListing();
+    }, []);
+
+    const handleMemberChange = (value) => {
+        setUserID(value);
+    };
+
+
+
+    useEffect(() => {
+        // Call the API with updated filter values (fromDate, toDate, userID)
+        // Fetch data for the table using the updated filters
+        // ...
+
+        // Example: Call RequestTable component passing the filters as props
+    }, [fromDate, toDate, userID]);
+
     return (
         <div className="request-listing-container">
             <div className="request-listing-header">
                 <Space wrap>
-                    <label className="typo">Date</label>
+
+                    Date
                     <Select
                         defaultValue="Today"
                         style={{ width: 120 }}
-                        onChange={(value) => handleChange(value, 'Date')}
+                        onChange={handleDateChange}
                         options={[
+                            { value: 'All', label: 'All' },
                             { value: 'Today', label: 'Today' },
                             { value: 'This week', label: 'This week' },
                             { value: 'This month', label: 'This month' }
                         ]}
                     />
-                    <label className="typo">Member</label>
+
+                    Member
                     <Select
                         defaultValue="All"
                         style={{ width: 120 }}
-                        onChange={(value) => handleChange(value, 'Member')}
+                        onChange={handleMemberChange}
                         options={[
                             { value: 'All', label: 'All' },
-                            { value: 'Barry', label: 'Barry' },
-                            { value: 'Ann', label: 'Ann' },
-                            { value: 'Leo', label: 'Leo' }
+                            
+                            ...userOptions,
                         ]}
                     />
                 </Space>
                 <Flex gap="small" wrap="wrap">
-                    <Button type="primary" className="primary-button">
-                        Create Leave Request
+                    <Button type="primary" icon={<PlusCircleOutlined />} >
+                        Create New Request
                     </Button>
                 </Flex>
-                </div>
-            
-            <RequestTable />
+            </div>
+
+            <RequestTable
+                fromDate={fromDate}
+                toDate={toDate}
+                userID={userID}
+            />
         </div>
     );
-                };
+};
 
 
 export default RequestListing;
