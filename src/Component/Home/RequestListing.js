@@ -20,21 +20,20 @@ const RequestListing = () => {
     const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
     const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
     const handleDateChange = (value) => {
-        // Set fromDate and toDate accordingly based on the selected value
-        if (value === 'All') {
+        if (value === 'all') {
             setFromDate(new Date('2000-12-28'));
             setToDate(new Date ('2100-12-31'));
-        }  else if (value === 'Today') {
+        }  else if (value === 'today') {
             const todayStart = startOfDay(new Date());
             const todayEnd = endOfDay(new Date());
             setFromDate(todayStart);
             setToDate(todayEnd);
-        } else if (value === 'This week') {
+        } else if (value === 'thisWeek') {
             const startOfCurrentWeek = startOfWeek(new Date());
             const endOfCurrentWeek = endOfWeek(new Date());
             setFromDate(startOfCurrentWeek);
             setToDate(endOfCurrentWeek);
-        } else if (value === 'This month') {
+        } else if (value === 'thisMonth') {
             const startOfCurrentMonth = startOfMonth(new Date());
             const endOfCurrentMonth = endOfMonth(new Date());
             setFromDate(startOfCurrentMonth);
@@ -88,10 +87,10 @@ const RequestListing = () => {
                         style={{ width: 120 }}
                         onChange={handleDateChange}
                         options={[
-                            { value: 'All', label: 'All' },
-                            { value: 'Today', label: 'Today' },
-                            { value: 'This week', label: 'This week' },
-                            { value: 'This month', label: 'This month' }
+                            { value: 'all', label: 'All' },
+                            { value: 'today', label: 'Today' },
+                            { value: 'thisWeek', label: 'This week' },
+                            { value: 'thisMonth', label: 'This month' }
                         ]}
                     />
 
@@ -102,7 +101,6 @@ const RequestListing = () => {
                         onChange={handleMemberChange}
                         options={[
                             { value: 'all', label: 'All' },
-                            
                             ...userOptions,
                         ]}
                     />

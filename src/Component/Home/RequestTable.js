@@ -4,7 +4,7 @@ import axios from "axios";
 import api from './ApiDefine';
 import { differenceInDays, format, getYear, isSameDay, isWeekend } from 'date-fns';
 import '../../App.css';
-import { Space, Table, Button, Popconfirm } from 'antd';
+import { Space, Table, Button, Popconfirm, message } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 
 
@@ -150,13 +150,15 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
             const response = await api.delete(`/requests/${_id}`);
 
             if (response.status === 200) {
-                // Request successfully deleted, you may want to update the local state or refetch data
+                message.success(`Request deleted successfully`);
                 console.log(`Request with key ${_id} deleted successfully`);
-                window.location.reload();
+                //window.location.reload();
             } else {
+                message.error(`Failed to delete request`);
                 console.error(`Failed to delete request with key ${_id}`);
             }
         } catch (error) {
+            message.error(`Error deleting request`);
             console.error('Error deleting request:', error);
         }
     };
