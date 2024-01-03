@@ -9,7 +9,7 @@ import axios from 'axios';
 const { Option } = Select;
 const { confirm } = Modal;
 
-const RequestTableList = ({ dateFilter, selectedMember }) => {
+const RequestTableList = ({ dateFilter, selectedMember, members }) => {
     const [dataSource, setDataSource] = useState([]);
 
     const fetchData = async () => {
@@ -63,15 +63,21 @@ const RequestTableList = ({ dateFilter, selectedMember }) => {
             console.log('fromDate:', fromDate);
             console.log('toDate:', toDate);
 
+            const params = {
+                fromDate,
+                toDate,
+                limit: 1000,
+                offset: 0,
+            };
+    
+            if (selectedMember !== 'all') {
+                params.userId = selectedMember;
+            }
+    
             const response = await axios.get('http://localhost:7003/api/requests', {
-                params: {
-                    fromDate,
-                    toDate,
-                    userId: selectedMember ? selectedMember._id : 'all',
-                    limit: 1000,
-                    offset: 0,
-                },
+                params: params,
             });
+    
 
             console.log('selectedMember', selectedMember );
             console.log('API Response:', response);
@@ -96,7 +102,7 @@ const RequestTableList = ({ dateFilter, selectedMember }) => {
         (async () => {
             await fetchData();
         })();
-    }, [dateFilter, selectedMember]);
+    }, [dateFilter, selectedMember, members]);
 
 
     const columns = [

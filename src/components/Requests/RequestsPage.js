@@ -12,6 +12,7 @@ const Requests = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [dateFilter, setDateFilter] = useState('ThisWeek');
     const [selectedMember, setSelectedMember] = useState('all');
+    const [members, setMembers] = useState([]); // Make sure 'members' is defined
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -47,7 +48,7 @@ const Requests = () => {
                             <Option value="NextMonth">Next Month</Option>
                             <Option value="ThisMonth">This Month</Option>
                             <Option value="NextWeek">Next Week</Option>
-                            
+
                             <Option value="ThisWeek">This Week</Option>
                             <Option value="LastWeek">Last Week</Option>
                             <Option value="LastMonth">Last Month</Option>
@@ -60,8 +61,7 @@ const Requests = () => {
                             allowClear
                             options={[
                                 { value: 'all', label: 'All' },
-                                { value: 'leo', label: 'Leo' },
-                                { value: 'kevin', label: 'Kevin' },
+                                ...members.map(member => ({ value: member._id, label: member.name })),
                             ]}
                             onChange={handleMemberFilterChange}
                         />
@@ -74,7 +74,7 @@ const Requests = () => {
                     </Modal>
                 </div>
 
-                <RequestTableList dateFilter={dateFilter} selectedMember={selectedMember} />
+                <RequestTableList dateFilter={dateFilter} selectedMember={selectedMember} members={members} />
             </Content>
         </Layout>
     );
