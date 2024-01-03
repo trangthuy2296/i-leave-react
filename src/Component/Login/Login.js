@@ -5,7 +5,6 @@ import bg from '../../Images/img-login.png';
 import icon from '../../Images/ileave-icon.png';
 import { Formik } from "formik";
 import * as Yup from "yup";
-import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../Hook/useAuth';
 import '../../App.css'
 import './Login.css'
@@ -23,6 +22,7 @@ const schema = Yup.object().shape({
 const loginBGRGB = 'rgb(236,213,255)';
 
 const Login = () => {
+  // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
 
   const { handleLogin } = useAuth();
