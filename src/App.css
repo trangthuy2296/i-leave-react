@@ -5,7 +5,6 @@
   --primary-hover-color: var(--primary-color-darken);
 
   --neutral-100: rgba(239, 242, 245, 1);
-
   --neutral-0: #fff;
 }
 
@@ -105,11 +104,3 @@
     font-size: 14px;
     line-height: 16px;
   }
-
-.content-container{
-  margin: 24px 24px;
-  padding: 24px;
-  background: var(--neutral-0);
-  border-radius: 8px;
-  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
-}
