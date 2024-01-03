@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import axios from "axios";
 import api from './ApiDefine';
 import { differenceInDays, format, getYear, isSameDay, isWeekend } from 'date-fns';
 import '../../App.css';
