@@ -7,7 +7,7 @@ import { Route, Routes, createBrowserRouter, createRoutesFromElements, defer, us
 import Login from './Component/Login/Login';
 import RequestListing from './Component/Home/RequestListing';
 import Settings from './Component/Home/Settings';
-import { ProtectedLayout } from './Layout/ProtectedLayout';
+import { ProtectedLayout } from './Layout/ProtectedLayout/ProtectedLayout';
 import { AuthLayout } from './Layout/AuthLayout';
 import { HomeLayout } from './Layout/HomeLayout';
 
