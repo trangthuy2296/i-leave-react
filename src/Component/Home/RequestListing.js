@@ -1,11 +1,14 @@
 import React from 'react';
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { formatDistance, subDays } from "date-fns";
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import '../../App.css';
-import { Space, Table, Select, Button, Flex, Result } from 'antd';
-import { FormOutlined, MoreOutlined } from '@ant-design/icons';
-
+import { Space, Select, Button, Flex, message } from 'antd';
+import { PlusCircleOutlined } from '@ant-design/icons';
+import RequestTable from './RequestTable';
+import CreateLeaveReq from './CreateLeaveReq';
+import api from '../../api';
+import { useNavigate } from 'react-router-dom';
 
 
 const handleChange = (value, field) => {
@@ -14,114 +17,138 @@ const handleChange = (value, field) => {
     // Implement specific logic for each Select component's value change
 };
 const RequestListing = () => {
-    const [dataSource, setDataSource] = useState([]);
-    const columns = [
-        {
-            key: '1',
-            title: '#',
-            dataIndex: 'index',
-        
-        },
-        {
-            key: '2',
-            title: 'Requester',
-            dataIndex: '_id',
-        },
-        {
-           key: '3',
-            title: 'Start Date',
-            dataIndex: 'startDate',
-        },
-        {
-            key: '3',
-             title: 'End Date',
-             dataIndex: 'endDate',
-         },
-        {
-            key: '4',
-            title: 'Note',
-            dataIndex: 'note',
-        },
-        {
-            key: '5',
-            title: 'Sent on Slack at',
-            dataIndex: 'statusOnSlack',
-        }, 
     
-        {
-            key: '6',
-            title: 'Actions',
-            render: (_, record) => (
-                <Space>
-                    <FormOutlined />
-                    <MoreOutlined />
-    
-                </Space>
-            ),
-        }];
+    //Date filter
+    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
+    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const handleDateChange = (value) => {
+        // Set fromDate and toDate accordingly based on the selected value
+        if (value === 'All') {
+            setFromDate(new Date('2000-12-28'));
+            setToDate(new Date ('2100-12-31'));
+        }  else if (value === 'Today') {
+            const todayStart = startOfDay(new Date());
+            const todayEnd = endOfDay(new Date());
+            setFromDate(todayStart);
+            setToDate(todayEnd);
+        } else if (value === 'This week') {
+            const startOfCurrentWeek = startOfWeek(new Date());
+            const endOfCurrentWeek = endOfWeek(new Date());
+            setFromDate(startOfCurrentWeek);
+            setToDate(endOfCurrentWeek);
+        } else if (value === 'This month') {
+            const startOfCurrentMonth = startOfMonth(new Date());
+            const endOfCurrentMonth = endOfMonth(new Date());
+            setFromDate(startOfCurrentMonth);
+            setToDate(endOfCurrentMonth);
+        }
+        setFromDate(fromDate);
+        setToDate(toDate);
+    };
+
+    //Member filter
+    const [userID, setUserID] = useState('all');
+    const [userOptions, setUserOptions] = useState([]);
+
+    const fetchUserListing = async () => {
+        try {
+            const response = await api.get('/users');
+            const usernames = response.data.map((user) => ({
+                value: user._id, // Replace with user ID or unique identifier
+                label: user.name, // Replace with the property containing username
+            }));
+
+            setUserOptions(usernames);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchUserListing();
+    }, []);
+
+    const handleMemberChange = (value) => {
+        setUserID(value);
+    };
+
 
 
     useEffect(() => {
-        const dataType = "requests/list";
-        axios.post(`http://localhost:7003/api/${dataType}`)
-            .then(res => {
-                //the API response data is an array of objects
-                setDataSource(res.data || []);
-            })
-            .catch(err => console.log(err));
-    }, []);
+        // Call the API with updated filter values (fromDate, toDate, userID)
+        // Fetch data for the table using the updated filters
+        // ...
+
+        // Example: Call RequestTable component passing the filters as props
+    }, [fromDate, toDate, userID]);
+
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const showModal = () => {
+        setModalOpen(true);
+    }
+
+    const handleModalClose = () => {
+        setModalOpen(false)
+    }
+
+    const navigate = useNavigate();
+
+    
+
     return (
         <div className="request-listing-container">
             <div className="request-listing-header">
                 <Space wrap>
-                    <label className="typo">Date</label>
+
+                    Date
                     <Select
                         defaultValue="Today"
                         style={{ width: 120 }}
-                        onChange={(value) => handleChange(value, 'Date')}
+                        onChange={handleDateChange}
                         options={[
+                            { value: 'All', label: 'All' },
                             { value: 'Today', label: 'Today' },
                             { value: 'This week', label: 'This week' },
                             { value: 'This month', label: 'This month' }
                         ]}
                     />
-                    <label className="typo">Member</label>
+
+                    Member
                     <Select
-                        defaultValue="All"
+                        defaultValue="all"
                         style={{ width: 120 }}
-                        onChange={(value) => handleChange(value, 'Member')}
+                        onChange={handleMemberChange}
                         options={[
-                            { value: 'All', label: 'All' },
-                            { value: 'Barry', label: 'Barry' },
-                            { value: 'Ann', label: 'Ann' },
-                            { value: 'Leo', label: 'Leo' }
+                            { value: 'all', label: 'All' },
+                            
+                            ...userOptions,
                         ]}
                     />
                 </Space>
                 <Flex gap="small" wrap="wrap">
-                    <Button type="primary" className="primary-button">
-                        Create Leave Request
+                    <Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal} >
+                        Create New Request
                     </Button>
                 </Flex>
             </div>
-            <div className="request-listing-table">
-                <Table 
-                columns={columns} 
-                dataSource={dataSource
-                   /* .map((requests, dataIndex) => (
-                    <tr key={dataIndex}>
-                        <td>{requests.index}</td>
-                        <td>{requests._id}</td>
-                        <td>{requests.startDate}</td>
-                        <td>{requests.note}</td>
-                    </tr>
-                   )) */ } 
-                bordered 
-                scroll={{ y: 900 }} />
-            </div>
+
+            <RequestTable
+                fromDate={fromDate}
+                toDate={toDate}
+                userID={userID}
+            />
+
+            <CreateLeaveReq
+                isModalOpen={isModalOpen}
+                handleModalClose={handleModalClose}>
+
+            </CreateLeaveReq>
+
         </div>
     );
-                };
+};
 
 
 export default RequestListing;
