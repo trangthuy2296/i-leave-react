@@ -144,7 +144,7 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
     const handleModalClose = () => {
         setItemOpen(false);
     }
-    var requestData = {};
+    const [requestData, setRequestData] = useState();
 
     const handleEdit = async (_id) => {
         // Add edit logic here
@@ -152,7 +152,7 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
         try {
             const response = await api.get(`/requests/${_id}`);
             console.log("response data", response.data.result);
-            requestData = response.data.result;
+            setRequestData(response.data.result);
             console.log('request data', requestData);
             setItemOpen(true);
             

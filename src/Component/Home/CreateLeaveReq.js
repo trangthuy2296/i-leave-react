@@ -91,7 +91,7 @@ const CreateLeaveReq = ({isModalOpen, handleModalClose}) => {
                     startDate: null,
                     endDate: null,
                     timeSlot: "FullDay",
-                    note: "test"
+                    note: ""
                 }}
                 onSubmit={handleModalSubmit}
                 validateOnChange={false}
@@ -108,7 +108,7 @@ const CreateLeaveReq = ({isModalOpen, handleModalClose}) => {
 
                 }) => (
 
-
+                        
                     
                         <Form layout='vertical' >
                             <Form.Item
@@ -169,6 +169,7 @@ const CreateLeaveReq = ({isModalOpen, handleModalClose}) => {
                                 <TextArea
                                     placeholder='Message to your team on the leave days'
                                     name='note'
+                                    defaultValue={values.note}
                                     value={values.note}
                                     onChange={handleChange}
                                     onBlur={handleBlur}

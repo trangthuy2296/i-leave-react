@@ -8,6 +8,7 @@ import TextArea from 'antd/es/input/TextArea';
 import { json } from 'react-router-dom';
 import { isSameDay } from 'date-fns';
 import api from '../../api';
+import moment from 'moment';
 
 //Create leave request schema
 const schema = Yup.object().shape({
@@ -48,6 +49,8 @@ const TSFDOptions = [
 const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
 
     //to initiate the date range selection
+    console.log ("request data when render edit modal", requestData);
+    //if (requestData) {console.log ("Convert start date to moment", moment(requestData.startDate))};
     const { RangePicker } = DatePicker;
 
     const [leaveFor1Day, setLeaveFor1Day] = useState(true);
@@ -61,8 +64,8 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                 note: values.note
             }
 
-            const response = await api.post("/requests", leaveRequest);
-            message.success("Created successfully");
+            const response = await api.put(`/requests/${requestData._id}`, leaveRequest);
+            message.success("Updated successfully");
             handleModalClose();
 
 
@@ -77,7 +80,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
 
 
     return (
-        <>
+        <>  
             <Modal
                 open={isModalOpen}
                 title="Edit Leave Request"
@@ -89,10 +92,10 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                     enableReinitialize
                     validationSchema={schema}
                     initialValues={{
-                        startDate: requestData.startDate,
-                        endDate: requestData.endDate,
-                        timeSlot: "FullDay",
-                        note: "requestData.note"
+                        startDate: null,
+                        endDate: null,
+                        timeSlot: requestData?.timeSlot,
+                        note: requestData?.note
                     }}
                     onSubmit={handleModalSubmit}
                     validateOnChange={false}
@@ -112,6 +115,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
 
                     
                         <Form layout='vertical' >
+                            <p>Requested by {requestData.createdBy?.name}</p>
                             <Form.Item
                                 label={<label className='label-font'>Pick the dates</label>}
                                 validateStatus={(errors.startDate || errors.endDate) && touched.startDate ? 'error' : 'success'}
@@ -120,6 +124,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                                 <RangePicker
                                     name='leavePeriod'
                                     onBlur={handleBlur}
+                                    defaultValue={[values.startDate, values.endDate]}
                                     onChange={(dates) => {
                                         if (dates) {
                                             setFieldValue('startDate', dates[0].startOf('day'));
@@ -136,6 +141,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                                             setFieldValue('endDate', null);
                                             setLeaveFor1Day(true);
                                         };
+                                        console.log("timeslot value", values.timeSlot);
                                     }}>
                                 </RangePicker>
                                 <br />
@@ -152,6 +158,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                                     options={leaveFor1Day ? TSfullOptions : TSFDOptions}
                                     name='timeSlot'
                                     value={values.timeSlot}
+                                    defaultValue={values.timeSlot}
                                     onChange={handleChange}
                                     onBlur={({ target: { value } }) => setFieldValue('timeSlot', value)}
                                     optionType='button'>
@@ -170,6 +177,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                                 <TextArea
                                     placeholder='Message to your team on the leave days'
                                     name='note'
+                                    defaultValue={values.note}
                                     value={values.note}
                                     onChange={handleChange}
                                     onBlur={handleBlur}
