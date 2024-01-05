@@ -24,9 +24,7 @@ const loginBGRGB = 'rgb(236,213,255)';
 const Login = () => {
   // eslint-disable-next-line
   const [loading, setLoading] = useState(false);
-
   const { handleLogin } = useAuth();
-
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
@@ -131,7 +129,7 @@ const Login = () => {
               <Form.Item
                 wrapperCol={{ span: 24 }}
               >
-                <Button type="primary" htmlType="submit" block>
+                <Button size="large" type="primary" htmlType="submit" block>
                   Sign in {/* Use the "primary-button" class */}
                 </Button>
               </Form.Item>
