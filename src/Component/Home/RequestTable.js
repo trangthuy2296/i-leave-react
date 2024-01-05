@@ -152,6 +152,9 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
                 message.success(`Request deleted successfully`);
                 console.log(`Request with key ${_id} deleted successfully`);
                 //window.location.reload();
+                setDataSource((prevDataSource) =>
+                prevDataSource.filter((record) => record._id !== _id)
+            );
             } else {
                 message.error(`Failed to delete request`);
                 console.error(`Failed to delete request with key ${_id}`);
