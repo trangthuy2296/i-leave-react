@@ -1,6 +1,5 @@
 import React from 'react';
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import '../../App.css';
 import { Space, Select, Button, Flex } from 'antd';
@@ -101,7 +100,7 @@ const RequestListing = () => {
                     />
                 </Space>
                 <Flex gap="small" wrap="wrap">
-                    <Button type="primary" icon={<PlusCircleOutlined />} >
+                    <Button size="large" type="primary" icon={<PlusCircleOutlined />} >
                         Create New Request
                     </Button>
                 </Flex>

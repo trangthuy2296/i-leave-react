@@ -1,12 +1,7 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
-import {
-    DashboardOutlined,
-    UserOutlined,
-    FileOutlined,
-} from '@ant-design/icons';
+import { Layout } from 'antd';
 
-const { Sider, Content, Header } = Layout;
+const { Content } = Layout;
 
 const Settings = () => {
     return (
