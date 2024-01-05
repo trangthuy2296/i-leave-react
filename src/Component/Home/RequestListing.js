@@ -2,10 +2,12 @@ import React from 'react';
 import { useState, useEffect } from "react";
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import '../../App.css';
-import { Space, Select, Button, Flex } from 'antd';
+import { Space, Select, Button, Flex, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import RequestTable from './RequestTable';
+import CreateLeaveReq from './CreateLeaveReq';
 import api from './ApiDefine';
+import { useNavigate } from 'react-router-dom';
 
 
 const RequestListing = () => {
@@ -33,8 +35,6 @@ const RequestListing = () => {
             setFromDate(startOfCurrentMonth);
             setToDate(endOfCurrentMonth);
         }
-        //setFromDate(fromDate);
-        //setToDate(toDate);
     };
 
     //Member filter
@@ -64,11 +64,23 @@ const RequestListing = () => {
     };
 
 
-
     useEffect(() => {
         // Call the API with updated filter values (fromDate, toDate, userID)
         // Fetch data for the table using the updated filters
     }, [fromDate, toDate, userID]);
+
+
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const showModal = () => {
+        setModalOpen(true);
+    }
+
+    const handleModalClose = () => {
+        setModalOpen(false)
+    }
+
+    const navigate = useNavigate();
 
     return (
         <div className="request-listing-container">
@@ -111,6 +123,11 @@ const RequestListing = () => {
                 toDate={toDate}
                 userID={userID}
             />
+            <CreateLeaveReq
+                isModalOpen={isModalOpen}
+                handleModalClose={handleModalClose}>
+
+            </CreateLeaveReq>
         </div>
     );
 };
