@@ -3,105 +3,14 @@ import { Table, Space, Button, Modal, Popconfirm, Select } from 'antd';
 import {
     FormOutlined, DeleteOutlined
 } from '@ant-design/icons';
-import { differenceInDays, format, getYear, isWeekend, isSameDay } from 'date-fns';
+import { differenceInDays, format, getYear, isSameDay, isWeekend } from 'date-fns';
 import axios from 'axios';
+import api from '../ApiDefine';
 
 const { Option } = Select;
 const { confirm } = Modal;
 
-const RequestTableList = ({ dateFilter, selectedMember, members }) => {
-    const [dataSource, setDataSource] = useState([]);
-
-    const fetchData = async () => {
-        try {
-            let fromDate, toDate;
-
-
-            const today = new Date();
-            const currentDay = today.getDay();
-            const diff = today.getDate() - currentDay + (currentDay === 0 ? -6 : 1); // Adjust for Sunday
-
-            switch (dateFilter) {
-                case 'NextMonth':
-                    fromDate = format(new Date(today.getFullYear(), today.getMonth() + 1, 1), 'yyyy-MM-dd');
-                    toDate = format(new Date(today.getFullYear(), today.getMonth() + 2, 0), 'yyyy-MM-dd');
-                    break;
-                case 'NextWeek':
-                    const nextMonday = new Date(today.setDate(diff + 7)); // Add 7 days for next week
-                    fromDate = format(nextMonday, 'yyyy-MM-dd');
-                    toDate = format(new Date(nextMonday.setDate(nextMonday.getDate() + 6)), 'yyyy-MM-dd');
-                    break;
-                case 'ThisMonth':
-                    fromDate = format(new Date(today.getFullYear(), today.getMonth(), 1), 'yyyy-MM-dd');
-                    toDate = format(new Date(today.getFullYear(), today.getMonth() + 1, 0), 'yyyy-MM-dd');
-                    break;
-                case 'ThisWeek':
-                    const monday = new Date(today.setDate(diff));
-                    fromDate = format(monday, 'yyyy-MM-dd');
-                    toDate = format(new Date(today.setDate(today.getDate() + 6)), 'yyyy-MM-dd');
-                    break;
-                case 'LastWeek':
-                    const lastWeekMonday = new Date(today.setDate(diff - 7)); // Subtract 7 days for last week
-                    fromDate = format(lastWeekMonday, 'yyyy-MM-dd');
-                    toDate = format(new Date(lastWeekMonday.setDate(lastWeekMonday.getDate() + 6)), 'yyyy-MM-dd');
-                    break;
-                case 'LastMonth':
-                    fromDate = format(new Date(today.getFullYear(), today.getMonth() - 1, 1), 'yyyy-MM-dd');
-                    toDate = format(new Date(today.getFullYear(), today.getMonth(), 0), 'yyyy-MM-dd');
-                    break;
-                case 'All':
-                    // Default case: set fromDate and toDate to retrieve all data
-                    fromDate = '2000-01-01';
-                    toDate = '2024-12-31';
-                    break;
-                default:
-                    // Handle any other cases or throw an error for an unsupported filter
-                    throw new Error(`Unsupported date filter: ${dateFilter}`);
-            }
-
-            console.log('dateFilter:', dateFilter);
-            console.log('fromDate:', fromDate);
-            console.log('toDate:', toDate);
-
-            const response = await axios.get('http://localhost:7003/api/requests', {
-                params: {
-                    fromDate,
-                    toDate,
-                    userId: 'all',
-                    limit: 1000,
-                    offset: 0,
-                },
-                headers: {
-                    Authorization: accessToken ? `Bearer ${accessToken}` : undefined,
-                },
-            
-            });
-
-        console.log('selectedMember', selectedMember);
-        console.log('API Response:', response);
-
-        if (response.data && Array.isArray(response.data.requests)) {
-            const dataWithIndex = response.data.requests.map((item, index) => ({
-                ...item,
-                key: (index + 1).toString(),
-            }));
-            setDataSource(dataWithIndex);
-        } else {
-            console.error('API response data.requests property is not an array:', response.data);
-        }
-    } catch (error) {
-        console.error('Error fetching data:', error);
-        setDataSource([]);
-    }
-};
-
-
-useEffect(() => {
-    (async () => {
-        await fetchData();
-    })();
-}, [dateFilter, selectedMember]);
-
+const RequestTableList = ({ fromDate, toDate, userID }) => {
 
 const columns = [
     {
@@ -196,6 +105,42 @@ const columns = [
         ),
     },
 ];
+
+const [dataSource, setDataSource] = useState([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await api.get('/requests', {
+                    params: {
+                        fromDate: fromDate.toISOString(), // Ensure proper formatting
+                        toDate: toDate.toISOString(), // Ensure proper formatting
+                        userId: userID,
+                        limit: 1000,
+                        offset: 0,
+                    },
+                });
+    
+                if (response.data && Array.isArray(response.data.requests)) {
+                    const dataWithIndex = response.data.requests.map((item, index) => ({
+                        ...item,
+                        key: (index + 1).toString(),
+                    }));
+                    setDataSource(dataWithIndex);
+                } else {
+                    console.error('API response data.requests property is not an array:', response.data);
+                }
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        };
+    
+        fetchData(); // Call the fetch function
+    
+    }, [fromDate, toDate, userID]); // Watch for changes in these dependencies
+
+
+
+
 
 const handleEdit = (key) => {
     // Add edit logic here

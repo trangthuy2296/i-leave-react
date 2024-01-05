@@ -1,18 +1,16 @@
-import React, { useState } from 'react';
-import { Layout, Select, Button, Table, Space, Modal } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Layout, Select, Button, Modal } from 'antd';
 import {
     PlusCircleOutlined,
 } from '@ant-design/icons';
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import RequestTableList from './RequestTableList';
+import api from '../ApiDefine';
 
 const { Content } = Layout;
-const { Option } = Select;
 
 const Requests = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [dateFilter, setDateFilter] = useState('ThisWeek');
-    const [selectedMember, setSelectedMember] = useState('all');
-    const [members, setMembers] = useState([]); // Make sure 'members' is defined
 
     const showModal = () => {
         setIsModalOpen(true);
@@ -26,13 +24,67 @@ const Requests = () => {
         setIsModalOpen(false);
     };
 
-    const handleDateFilterChange = (value) => {
-        setDateFilter(value);
+    //Date filter
+    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
+    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const handleDateChange = (value) => {
+        if (value === 'all') {
+            setFromDate(new Date('2000-12-28'));
+            setToDate(new Date('2100-12-31'));
+        } else if (value === 'today') {
+            const todayStart = startOfDay(new Date());
+            const todayEnd = endOfDay(new Date());
+            setFromDate(todayStart);
+            setToDate(todayEnd);
+        } else if (value === 'thisWeek') {
+            const startOfCurrentWeek = startOfWeek(new Date());
+            const endOfCurrentWeek = endOfWeek(new Date());
+            setFromDate(startOfCurrentWeek);
+            setToDate(endOfCurrentWeek);
+        } else if (value === 'thisMonth') {
+            const startOfCurrentMonth = startOfMonth(new Date());
+            const endOfCurrentMonth = endOfMonth(new Date());
+            setFromDate(startOfCurrentMonth);
+            setToDate(endOfCurrentMonth);
+        }
+        //setFromDate(fromDate);
+        //setToDate(toDate);
     };
 
-    const handleMemberFilterChange = (value) => {
-        setSelectedMember(value);
+
+    const [userID, setUserID] = useState('all');
+    const [userOptions, setUserOptions] = useState([]);
+
+    const fetchUserListing = async () => {
+        try {
+
+            const response = await api.get('/users');
+            console.log('Response:', response);
+
+            const usernames = response.data.map((user) => ({
+                value: user._id, // Replace with user ID or unique identifier
+                label: user.name, // Replace with the property containing username
+            }));
+
+            setUserOptions(usernames);
+        } catch (error) {
+            console.error('Error fetching user data:', error);
+        }
     };
+
+    useEffect(() => {
+        fetchUserListing();
+    }, []);
+
+    const handleMemberChange = (value) => {
+        setUserID(value);
+    };
+
+    useEffect(() => {
+        // Call the API with updated filter values (fromDate, toDate, userID)
+        // Fetch data for the table using the updated filters
+    }, [fromDate, toDate, userID]);
+
 
     return (
         <Layout>
@@ -41,30 +93,27 @@ const Requests = () => {
                     <div style={{ gap: 16, display: 'inline-flex', alignItems: 'center' }}>
                         Date
                         <Select
-                            value={dateFilter}
+                            defaultValue="thisWeek"  // Set the default value to "thisWeek"
                             style={{ width: 200, height: 40 }}
-                            onChange={handleDateFilterChange}
-                        >
-                            <Option value="NextMonth">Next Month</Option>
-                            <Option value="ThisMonth">This Month</Option>
-                            <Option value="NextWeek">Next Week</Option>
-
-                            <Option value="ThisWeek">This Week</Option>
-                            <Option value="LastWeek">Last Week</Option>
-                            <Option value="LastMonth">Last Month</Option>
-                            <Option value="All">All</Option>
-                        </Select>
-                        Member
-                        <Select
-                            value={selectedMember}
-                            style={{ width: 200, height: 40 }}
-                            allowClear
+                            onChange={handleDateChange}
                             options={[
                                 { value: 'all', label: 'All' },
-                                ...members.map(member => ({ value: member._id, label: member.name })),
+                                { value: 'today', label: 'Today' },
+                                { value: 'thisWeek', label: 'This week' },
+                                { value: 'thisMonth', label: 'This month' }
                             ]}
-                            onChange={handleMemberFilterChange}
                         />
+                        Member
+                        <Select
+                            defaultValue="all"
+                            style={{ width: 200, height: 40 }}
+                            onChange={handleMemberChange}
+                            options={[
+                                { value: 'all', label: 'All' },
+                                ...userOptions,
+                            ]}
+                        />
+
                     </div>
                     <Button type="primary" icon={<PlusCircleOutlined />} onClick={showModal}>
                         Create New Request
@@ -74,7 +123,11 @@ const Requests = () => {
                     </Modal>
                 </div>
 
-                <RequestTableList dateFilter={dateFilter} selectedMember={selectedMember} members={members} />
+                <RequestTableList
+                    fromDate={fromDate}
+                    toDate={toDate}
+                    userID={userID}
+                />
             </Content>
         </Layout>
     );
