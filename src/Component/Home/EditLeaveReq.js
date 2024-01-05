@@ -8,7 +8,6 @@ import TextArea from 'antd/es/input/TextArea';
 import { json } from 'react-router-dom';
 import { isSameDay } from 'date-fns';
 import api from './ApiDefine';
-import moment from 'moment';
 
 //Create leave request schema
 const schema = Yup.object().shape({
