@@ -3,23 +3,19 @@ import { Layout, theme, } from 'antd';
 import { Navigate, useOutlet } from 'react-router-dom';
 import { useAuth } from '../../Hook/useAuth';
 import '../../App.css';
-import { jwtDecode } from "jwt-decode";
 import ProfileDropdown from './UserName';
 import Sidebar from './Sidebar'; 
+import useUserName from '../../Hook/getUserInfo';
 
 const { Header, Content } = Layout
 
 export const ProtectedLayout = () => {
   const { accessToken, logout } = useAuth();
-  console.log('accessToken:', accessToken);
+  console.log('accessToken on protected layout', accessToken);
   const outlet = useOutlet();
   const [currentPage, setCurrentPage] = useState('Request Listing');
+  const userName = useUserName(accessToken);
 
-  //Decode Token to get: userName
-  const decodedToken = jwtDecode(accessToken);
-  console.log('code token', decodedToken);
-  const userName = decodedToken.user.name;
-  console.log('userName', userName);
 
   if (!accessToken) {
     return <Navigate to="/login" />;
