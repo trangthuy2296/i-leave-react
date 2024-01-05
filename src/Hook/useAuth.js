@@ -5,14 +5,12 @@ import { jwtDecode } from "jwt-decode";
 
 const AuthContext = createContext();
 
+
+
 export const AuthProvider = ({ children }) => {
   const [accessToken, setAccessToken] = useLocalStorage("accessToken", null);
   const navigate = useNavigate();
   console.log('Getting value from local storage:', accessToken);
-
-
-
-
 
   // call this function when you want to authenticate the user
   const handleLogin = useCallback(async (data) => {
@@ -28,6 +26,29 @@ export const AuthProvider = ({ children }) => {
     navigate("/login", { replace: true });
   }, [setAccessToken, navigate]);
 
+  useEffect(() => {
+    
+    if (accessToken) {
+      try {
+        const decodedToken = jwtDecode(accessToken);
+        console.log("Decoded Token:", decodedToken);
+
+        const isTokenExpired = decodedToken.exp && Date.now() >= decodedToken.exp * 1000;
+
+        if (isTokenExpired) {
+          console.log("Token expired. Clearing from local storage.");
+          setAccessToken(null);
+        } else {
+          console.log("Token is still valid.");
+        }
+
+      } catch (error) {
+        // Handle decoding errors, e.g., invalid token
+        console.error("Error decoding accessToken:", error);
+        setAccessToken(null);
+      }
+    }
+  }, [accessToken, setAccessToken]);
 
   const value = useMemo(
     () => ({
