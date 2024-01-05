@@ -5,6 +5,7 @@ import { differenceInDays, format, getYear, isSameDay, isWeekend } from 'date-fn
 import '../../App.css';
 import { Space, Table, Button, Popconfirm, message } from 'antd';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
+import EditLeaveReq from './EditLeaveReq';
 
 
 const RequestTable = ({ fromDate, toDate, userID }) => {
@@ -80,7 +81,7 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
                     <Button
                         type='link'
                         icon={<FormOutlined />}
-                        onClick={() => handleEdit(record.key)}
+                        onClick={() => handleEdit(record._id)}
                     >
                     </Button>
                     <Popconfirm
@@ -138,9 +139,27 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
 
  
     //handle edit record
-    const handleEdit = (key) => {
+    const [isItemOpen, setItemOpen] = useState(false);
+
+    const handleModalClose = () => {
+        setItemOpen(false);
+    }
+    const [requestData, setRequestData] = useState();
+
+    const handleEdit = async (_id) => {
         // Add edit logic here
-        console.log(`Edit request with key: ${key}`);
+        console.log(`Edit request with key: ${_id}`);
+        try {
+            const response = await api.get(`/requests/${_id}`);
+            console.log("response data", response.data.result);
+            setRequestData(response.data.result);
+            console.log('request data', requestData);
+            setItemOpen(true);
+            
+        } catch(err) {
+            console.log ("err", err);
+            message.error("Request not found");
+        }
     };
 
     //handle delete record
@@ -151,7 +170,6 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
             if (response.status === 200) {
                 message.success(`Request deleted successfully`);
                 console.log(`Request with key ${_id} deleted successfully`);
-                //window.location.reload();
                 setDataSource((prevDataSource) =>
                 prevDataSource.filter((record) => record._id !== _id)
             );
@@ -165,11 +183,18 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
         }
     };
 
-    return (<Table
+    return (<>
+    <Table
         columns={columns}
         dataSource={dataSource}
+        scroll={{ y: 900 }} />
+        
+        <EditLeaveReq
+            handleModalClose={handleModalClose}
+            isModalOpen={isItemOpen}
+            requestData={requestData}/>
+            </>)
 
-        scroll={{ y: 900 }} />)
 }
 
 export default RequestTable;

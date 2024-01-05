@@ -112,7 +112,7 @@ const RequestListing = () => {
                     />
                 </Space>
                 <Flex gap="small" wrap="wrap">
-                    <Button size="large" type="primary" icon={<PlusCircleOutlined />} >
+                    <Button size="large" type="primary" icon={<PlusCircleOutlined />} onClick={showModal} >
                         Create New Request
                     </Button>
                 </Flex>
