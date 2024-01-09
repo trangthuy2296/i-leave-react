@@ -189,11 +189,11 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
         dataSource={dataSource}
         scroll={{ y: 900 }} />
         
-        <EditLeaveReq
+    { isItemOpen && <EditLeaveReq
             handleModalClose={handleModalClose}
             isModalOpen={isItemOpen}
-            requestData={requestData}/>
-            </>)
+            requestData={requestData}/>}
+    </>)
 
 }
 

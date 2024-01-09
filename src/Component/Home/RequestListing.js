@@ -123,11 +123,9 @@ const RequestListing = () => {
                 toDate={toDate}
                 userID={userID}
             />
-            <CreateLeaveReq
+            {isModalOpen &&<CreateLeaveReq
                 isModalOpen={isModalOpen}
-                handleModalClose={handleModalClose}>
-
-            </CreateLeaveReq>
+                handleModalClose={handleModalClose}/>}
         </div>
     );
 };
