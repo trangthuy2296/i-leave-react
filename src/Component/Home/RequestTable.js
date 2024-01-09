@@ -13,15 +13,17 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
     //columns of table
     const columns = [
         {
+    
             key: '1',
             title: '#',
             dataIndex: 'key',
-
+            sort: (a, b) => a.key.localeCompare(b.key),
         },
         {
             key: '2',
             title: 'Requester',
             render: (text, record) => record.createdBy.name,
+            sorter: (a, b) => a.createdBy.name.localeCompare(b.createdBy.name),
         },
         {
             title: 'Leave Duration',
@@ -47,6 +49,9 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
 
                 return `${days} days`;
             },
+            sorter: (a, b) => {
+                // Leave duration comparison logic
+            },
         },
         {
             title: 'Leave Dates',
@@ -60,6 +65,7 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
                     ? startDateFormatted
                     : `${startDateFormatted} - ${endDateFormatted} ${getYear(record.startDate)}`;
             },
+            sorter: (a, b) => new Date(a.startDate) - new Date(b.startDate),
         },
         {
             key: '4',

@@ -13,8 +13,9 @@ import { useNavigate } from 'react-router-dom';
 const RequestListing = () => {
     
     //Date filter
-    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
-    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const [fromDate, setFromDate] = useState(startOfWeek(new Date())); // Start of current week
+    const [toDate, setToDate] = useState(endOfWeek(new Date())); 
+
     const handleDateChange = (value) => {
         if (value === 'all') {
             setFromDate(new Date('2000-12-28'));
@@ -83,27 +84,28 @@ const RequestListing = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="request-listing-container">
-            <div className="request-listing-header">
+        <div className="request-listing-container" >
+            <div className="request-listing-header" >
                 <Space wrap>
 
                     Date
                     <Select
-                        defaultValue="Today"
-                        style={{ width: 120 }}
-                        onChange={handleDateChange}
+                        defaultValue='thisWeek'
+                        style={{ width: 160, height: 40 }}
+                       
                         options={[
                             { value: 'all', label: 'All' },
                             { value: 'today', label: 'Today' },
                             { value: 'thisWeek', label: 'This week' },
                             { value: 'thisMonth', label: 'This month' }
                         ]}
+                        onChange={handleDateChange}
                     />
 
                     Member
                     <Select
                         defaultValue="all"
-                        style={{ width: 120 }}
+                        style={{ width: 160, height: 40 }}
                         onChange={handleMemberChange}
                         options={[
                             { value: 'all', label: 'All' },
