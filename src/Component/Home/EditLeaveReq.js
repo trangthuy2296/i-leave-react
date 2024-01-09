@@ -8,6 +8,7 @@ import TextArea from 'antd/es/input/TextArea';
 import { json } from 'react-router-dom';
 import { isSameDay } from 'date-fns';
 import api from './ApiDefine';
+import dayjs from 'dayjs';
 
 //Create leave request schema
 const schema = Yup.object().shape({
@@ -91,8 +92,8 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
                     enableReinitialize
                     validationSchema={schema}
                     initialValues={{
-                        startDate: null,
-                        endDate: null,
+                        startDate: dayjs(requestData.startDate),
+                        endDate: dayjs(requestData.endDate),
                         timeSlot: requestData?.timeSlot,
                         note: requestData?.note
                     }}
