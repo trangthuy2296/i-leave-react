@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
 import '../../App.css';
 import { Space, Select, Button, Flex, message } from 'antd';
@@ -8,6 +8,7 @@ import RequestTable from './RequestTable';
 import CreateLeaveReq from './CreateLeaveReq';
 import api from './ApiDefine';
 import { useNavigate } from 'react-router-dom';
+import { tab } from '@testing-library/user-event/dist/tab';
 
 
 const RequestListing = () => {
@@ -55,7 +56,11 @@ const RequestListing = () => {
         }
     };
 
+    //a variable to request the table to update :D
+    const [tableUpdate, setTableUpdate] = useState(0);
+
     useEffect(() => {
+        console.log('the component is mounted')
         fetchUserListing();
     }, []);
 
@@ -65,22 +70,27 @@ const RequestListing = () => {
 
 
     useEffect(() => {
+        console.log('the component is mounted by 2nd useEffect')
         // Call the API with updated filter values (fromDate, toDate, userID)
         // Fetch data for the table using the updated filters
     }, [fromDate, toDate, userID]);
 
 
+    // declare different value for the new request modal
     const [isModalOpen, setModalOpen] = useState(false);
 
     const showModal = () => {
         setModalOpen(true);
     }
 
-    const handleModalClose = () => {
+    const handleModalClose = (updateRequire) => {
         setModalOpen(false)
     }
 
-    const navigate = useNavigate();
+    const triggerRefresh = () => {
+        setTableUpdate(tableUpdate => tableUpdate +1);
+        console.log('tableUpdate is set to ', tableUpdate)
+    }
 
     return (
         <div className="request-listing-container">
@@ -122,10 +132,13 @@ const RequestListing = () => {
                 fromDate={fromDate}
                 toDate={toDate}
                 userID={userID}
+                tableUpdate={tableUpdate}
+                triggerRefresh={triggerRefresh}
             />
-            {isModalOpen &&<CreateLeaveReq
+            {isModalOpen && <CreateLeaveReq
                 isModalOpen={isModalOpen}
-                handleModalClose={handleModalClose}/>}
+                handleModalClose={handleModalClose}
+                triggerRefresh={triggerRefresh}/>}
         </div>
     );
 };
