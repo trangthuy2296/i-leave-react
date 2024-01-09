@@ -1,5 +1,5 @@
 //import different things
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, Button, Modal, DatePicker, Radio, message } from 'antd';
 import { ErrorMessage, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -41,9 +41,13 @@ const TSFDOptions = [
     ];
 
 
-
 //handle the main screen
-const CreateLeaveReq = ({isModalOpen, handleModalClose}) => {
+const CreateLeaveReq = ({isModalOpen, handleModalClose, triggerRefresh}) => {
+
+    useEffect( () => {
+        console.log('Component CreateLeaveReq is mounted');
+    },[]);
+    
 
     //to initiate the date range selection
     const { RangePicker } = DatePicker;
@@ -62,6 +66,8 @@ const CreateLeaveReq = ({isModalOpen, handleModalClose}) => {
             const response = await api.post("/requests", leaveRequest);
             message.success("Created successfully");
             handleModalClose();
+            triggerRefresh();
+            
             
 
         } catch (err) {

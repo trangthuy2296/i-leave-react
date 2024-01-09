@@ -46,7 +46,9 @@ const TSFDOptions = [
 
 
 //handle the main screen
-const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
+const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData, triggerRefresh }) => {
+
+    
 
     //to initiate the date range selection
     console.log ("request data when render edit modal", requestData);
@@ -67,6 +69,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
             const response = await api.put(`/requests/${requestData._id}`, leaveRequest);
             message.success("Updated successfully");
             handleModalClose();
+            triggerRefresh();
 
 
         } catch (err) {
@@ -77,6 +80,8 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData }) => {
 
         }
     };
+
+
 
 
     return (

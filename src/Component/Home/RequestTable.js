@@ -8,7 +8,7 @@ import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import EditLeaveReq from './EditLeaveReq';
 
 
-const RequestTable = ({ fromDate, toDate, userID }) => {
+const RequestTable = ({ fromDate, toDate, userID, tableUpdate, triggerRefresh }) => {
 
     //columns of table
     const columns = [
@@ -133,8 +133,9 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
         };
     
         fetchData(); // Call the fetch function
+        console.log('Request Table is mounted/updated')
     
-    }, [fromDate, toDate, userID]); // Watch for changes in these dependencies
+    }, [fromDate, toDate, userID, tableUpdate]); // Watch for changes in these dependencies
     
 
  
@@ -192,7 +193,8 @@ const RequestTable = ({ fromDate, toDate, userID }) => {
     { isItemOpen && <EditLeaveReq
             handleModalClose={handleModalClose}
             isModalOpen={isItemOpen}
-            requestData={requestData}/>}
+            requestData={requestData}
+            triggerRefresh={triggerRefresh}/>}
     </>)
 
 }
