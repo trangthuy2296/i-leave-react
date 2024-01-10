@@ -192,7 +192,7 @@ const EditLeaveReq = ({ isModalOpen, handleModalClose, requestData, triggerRefre
 
                             <Button key="cancel" onClick={handleModalClose}>
                                 Cancel
-                            </Button>,
+                            </Button> <></>
                             <Button key="submit" type="primary" onClick={handleSubmit}>
                                 Send
                             </Button>

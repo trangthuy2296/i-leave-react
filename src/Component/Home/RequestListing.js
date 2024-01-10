@@ -1,26 +1,25 @@
 import React from 'react';
 import { useState, useEffect, useContext } from "react";
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addMonths } from "date-fns";
 import '../../App.css';
 import { Space, Select, Button, Flex, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import RequestTable from './RequestTable';
 import CreateLeaveReq from './CreateLeaveReq';
 import api from '../Api/ApiDefine';
-import { useNavigate } from 'react-router-dom';
-import { tab } from '@testing-library/user-event/dist/tab';
+
 
 
 const RequestListing = () => {
-    
+
     //Date filter
-    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
-    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const [fromDate, setFromDate] = useState(new Date('2010-12-28'));
+    const [toDate, setToDate] = useState(new Date('2200-12-31'));
     const handleDateChange = (value) => {
         if (value === 'all') {
             setFromDate(new Date('2000-12-28'));
-            setToDate(new Date ('2100-12-31'));
-        }  else if (value === 'today') {
+            setToDate(new Date('2100-12-31'));
+        } else if (value === 'today') {
             const todayStart = startOfDay(new Date());
             const todayEnd = endOfDay(new Date());
             setFromDate(todayStart);
@@ -35,6 +34,12 @@ const RequestListing = () => {
             const endOfCurrentMonth = endOfMonth(new Date());
             setFromDate(startOfCurrentMonth);
             setToDate(endOfCurrentMonth);
+        } else if (value === 'nextMonth') {
+            const today = new Date();
+            const startOfNextMonth = startOfMonth(addMonths(today, 1));
+            const endOfNextMonth = endOfMonth(addMonths(today, 1));
+            setFromDate(startOfNextMonth);
+            setToDate(endOfNextMonth);
         }
     };
 
@@ -88,7 +93,7 @@ const RequestListing = () => {
     }
 
     const triggerRefresh = () => {
-        setTableUpdate(tableUpdate => tableUpdate +1);
+        setTableUpdate(tableUpdate => tableUpdate + 1);
         console.log('tableUpdate is set to ', tableUpdate)
     }
 
@@ -99,14 +104,15 @@ const RequestListing = () => {
 
                     Date
                     <Select
-                        defaultValue="Today"
+                        defaultValue="all"
                         style={{ width: 120 }}
                         onChange={handleDateChange}
                         options={[
                             { value: 'all', label: 'All' },
                             { value: 'today', label: 'Today' },
                             { value: 'thisWeek', label: 'This week' },
-                            { value: 'thisMonth', label: 'This month' }
+                            { value: 'thisMonth', label: 'This month' },
+                            { value: 'nextMonth', label: 'Next month' }
                         ]}
                     />
 
@@ -138,7 +144,7 @@ const RequestListing = () => {
             {isModalOpen && <CreateLeaveReq
                 isModalOpen={isModalOpen}
                 handleModalClose={handleModalClose}
-                triggerRefresh={triggerRefresh}/>}
+                triggerRefresh={triggerRefresh} />}
         </div>
     );
 };
