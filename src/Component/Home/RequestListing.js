@@ -1,23 +1,25 @@
 import React from 'react';
-import { useState, useEffect } from "react";
-import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth } from "date-fns";
+import { useState, useEffect, useContext } from "react";
+import { startOfDay, endOfDay, startOfWeek, endOfWeek, startOfMonth, endOfMonth, addMonths } from "date-fns";
 import '../../App.css';
-import { Space, Select, Button, Flex } from 'antd';
+import { Space, Select, Button, Flex, message } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import RequestTable from './RequestTable';
-import api from './ApiDefine';
+import CreateLeaveReq from './CreateLeaveReq';
+import api from '../Api/ApiDefine';
+
 
 
 const RequestListing = () => {
-    
+
     //Date filter
-    const [fromDate, setFromDate] = useState(startOfDay(new Date())); // Start of current day
-    const [toDate, setToDate] = useState(endOfDay(new Date())); // End of current day
+    const [fromDate, setFromDate] = useState(new Date('2010-12-28'));
+    const [toDate, setToDate] = useState(new Date('2200-12-31'));
     const handleDateChange = (value) => {
         if (value === 'all') {
             setFromDate(new Date('2000-12-28'));
-            setToDate(new Date ('2100-12-31'));
-        }  else if (value === 'today') {
+            setToDate(new Date('2100-12-31'));
+        } else if (value === 'today') {
             const todayStart = startOfDay(new Date());
             const todayEnd = endOfDay(new Date());
             setFromDate(todayStart);
@@ -32,9 +34,13 @@ const RequestListing = () => {
             const endOfCurrentMonth = endOfMonth(new Date());
             setFromDate(startOfCurrentMonth);
             setToDate(endOfCurrentMonth);
+        } else if (value === 'nextMonth') {
+            const today = new Date();
+            const startOfNextMonth = startOfMonth(addMonths(today, 1));
+            const endOfNextMonth = endOfMonth(addMonths(today, 1));
+            setFromDate(startOfNextMonth);
+            setToDate(endOfNextMonth);
         }
-        //setFromDate(fromDate);
-        //setToDate(toDate);
     };
 
     //Member filter
@@ -55,7 +61,11 @@ const RequestListing = () => {
         }
     };
 
+    //a variable to request the table to update :D
+    const [tableUpdate, setTableUpdate] = useState(0);
+
     useEffect(() => {
+        console.log('the component is mounted')
         fetchUserListing();
     }, []);
 
@@ -64,11 +74,28 @@ const RequestListing = () => {
     };
 
 
-
     useEffect(() => {
+        console.log('the component is mounted by 2nd useEffect')
         // Call the API with updated filter values (fromDate, toDate, userID)
         // Fetch data for the table using the updated filters
     }, [fromDate, toDate, userID]);
+
+
+    // declare different value for the new request modal
+    const [isModalOpen, setModalOpen] = useState(false);
+
+    const showModal = () => {
+        setModalOpen(true);
+    }
+
+    const handleModalClose = (updateRequire) => {
+        setModalOpen(false)
+    }
+
+    const triggerRefresh = () => {
+        setTableUpdate(tableUpdate => tableUpdate + 1);
+        console.log('tableUpdate is set to ', tableUpdate)
+    }
 
     return (
         <div className="request-listing-container">
@@ -77,14 +104,15 @@ const RequestListing = () => {
 
                     Date
                     <Select
-                        defaultValue="Today"
+                        defaultValue="all"
                         style={{ width: 120 }}
                         onChange={handleDateChange}
                         options={[
                             { value: 'all', label: 'All' },
                             { value: 'today', label: 'Today' },
                             { value: 'thisWeek', label: 'This week' },
-                            { value: 'thisMonth', label: 'This month' }
+                            { value: 'thisMonth', label: 'This month' },
+                            { value: 'nextMonth', label: 'Next month' }
                         ]}
                     />
 
@@ -100,7 +128,7 @@ const RequestListing = () => {
                     />
                 </Space>
                 <Flex gap="small" wrap="wrap">
-                    <Button size="large" type="primary" icon={<PlusCircleOutlined />} >
+                    <Button size="large" type="primary" icon={<PlusCircleOutlined />} onClick={showModal} >
                         Create New Request
                     </Button>
                 </Flex>
@@ -110,7 +138,13 @@ const RequestListing = () => {
                 fromDate={fromDate}
                 toDate={toDate}
                 userID={userID}
+                tableUpdate={tableUpdate}
+                triggerRefresh={triggerRefresh}
             />
+            {isModalOpen && <CreateLeaveReq
+                isModalOpen={isModalOpen}
+                handleModalClose={handleModalClose}
+                triggerRefresh={triggerRefresh} />}
         </div>
     );
 };
