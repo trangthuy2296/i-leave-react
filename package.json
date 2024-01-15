@@ -1,7 +1,6 @@
 {
   "name": "i-leave-react",
   "version": "0.1.0",
-  "proxy": "http://localhost:7003",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
