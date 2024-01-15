@@ -1,7 +1,7 @@
 module.exports = {
     apps: [
       {
-        script: 'pm2 serve ./build 6666 --name "ileave-react-prod" --spa',
+        script: './server.js',
         'env_production': {
           'NODE_ENV': 'production',
           'CONFIG_FILE': 'prod.env',
