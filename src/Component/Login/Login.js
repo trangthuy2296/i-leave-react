@@ -28,7 +28,7 @@ const Login = () => {
   const handleSubmit = async (values) => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:7003/api/login', {
+      const response = await fetch('/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
