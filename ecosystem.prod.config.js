@@ -1,6 +1,7 @@
 module.exports = {
     apps: [
       {
+        name: 'ileave-react-prod',
         script: './server.js',
         'env_production': {
           'NODE_ENV': 'production',
