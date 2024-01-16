@@ -21,7 +21,7 @@ const RequestTable = ({ fromDate, toDate, userID, tableUpdate, triggerRefresh })
         {
             key: '2',
             title: 'Requester',
-            render: (text, record) => record.createdBy.name,
+            render: (text, record) => record.createdBy ? record.createdBy.name : "Unknown",
         },
         {
             title: 'Leave Duration',
