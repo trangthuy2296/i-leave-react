@@ -29,17 +29,25 @@ const RequestTable = ({ fromDate, toDate, userID, tableUpdate, triggerRefresh })
             render: (_, record) => {
                 const startDate = new Date(record.startDate);
                 const endDate = new Date(record.endDate);
+                const isSameDay = startDate.toDateString() === endDate.toDateString();
 
-                if (isSameDay(startDate, endDate)) {
+                if (isSameDay && record.timeSlot == 'Morning') {
+                    return 'Morning';
+                } else if (isSameDay && record.timeSlot == 'Afternoon') {
+                    return 'Afternoon';
+                }
+                else if (isSameDay) {
                     return '1 day';
                 }
 
                 let days = differenceInDays(endDate, startDate) + 1;
 
                 // Exclude weekends
-                for (let i = 0; i <= days; i++) {
+                for (let i = 0; i < days; i++) {
                     const currentDate = new Date(startDate);
+                    console.log(currentDate);
                     currentDate.setDate(startDate.getDate() + i);
+                    console.log(currentDate);
                     if (isWeekend(currentDate)) {
                         days -= 1;
                     }
@@ -55,9 +63,10 @@ const RequestTable = ({ fromDate, toDate, userID, tableUpdate, triggerRefresh })
             render: (_, record) => {
                 const startDateFormatted = format(record.startDate, 'dd MMM');
                 const endDateFormatted = format(record.endDate, 'dd MMM');
+                const sameDateFormatted = format(record.startDate, 'dd MMM yyyy')
 
                 return startDateFormatted === endDateFormatted
-                    ? startDateFormatted
+                    ? sameDateFormatted
                     : `${startDateFormatted} - ${endDateFormatted} ${getYear(record.startDate)}`;
             },
         },
